@@ -11,25 +11,25 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* Brand */
-    --brand-rose: #F8719D;
-    --brand-lavender: #BBB3D9;
-    --brand-blue: #ABC2E2;
-    --brand-green: #9BBCC3;
+  --brand-rose: #F8719D;
+  --brand-lavender: #BBB3D9;
+  --brand-blue: #ABC2E2;
+  --brand-green: #9BBCC3;
 
-    /* Content */
-    --content-primary: #3D3B3B;
-    --content-secondary: #627091;
-    --content-inverse: #FFFFFF;
+  /* Content */
+  --content-primary: #3D3B3B;
+  --content-secondary: #627091;
+  --content-inverse: #FFFFFF;
 
-    /* Background */
-    --background-fixed-white: #FFFFFF;
-    --background-aurora: linear-gradient(45deg, #ABC2E2 0%, #BBB3D9 50%, #CB9AD2 100%);
+  /* Background */
+  --background-fixed-white: #FFFFFF;
+  --background-aurora: linear-gradient(45deg, #ABC2E2 0%, #BBB3D9 50%, #CB9AD2 100%);
 
-    /* Accent */
-    --accent-green: #42CFB7;
-    --accent-red: #D5529E;
-    --accent-yellow: #E2AD26;
+  /* Accent */
+  --accent-green: #42CFB7;
+  --accent-red: #D5529E;
+  --accent-yellow: #E2AD26;
+
 }
 
 body {
