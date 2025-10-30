@@ -1,5 +1,6 @@
 import NavItem from './components/NavItem';
 import Glass from './components/Glass';
+import Button from './components/Button';
 
 function App() {  
   return (
