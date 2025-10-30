@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI";
   font-size: 16px;
 
   color: var(--content-primary);
@@ -20,6 +20,7 @@
   /* Content */
   --content-primary: #3D3B3B;
   --content-secondary: #627091;
+  --content-tertiary: #9698B8;
   --content-inverse: #FFFFFF;
 
   /* Background */
@@ -31,6 +32,10 @@
   --accent-red: #D5529E;
   --accent-yellow: #E2AD26;
 
+}
+
+@theme {
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 body {
@@ -69,4 +74,81 @@ h3 {
   :root {
     font-size: 12px;
   }
+}
+
+@font-face {
+  font-family: 'Segoe UI';
+  src: url('/src/assets/fonts/segoeui.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Segoe UI';
+  src: url('/src/assets/fonts/segoeuib.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Segoe UI';
+  src: url('/src/assets/fonts/segoeuii.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Segoe UI';
+  src: url('/src/assets/fonts/segoeuisl.ttf') format('truetype');
+  font-weight: light;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Segoe UI';
+  src: url('/src/assets/fonts/segoeuiz.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Segoe UI';
+  src: url('/src/assets/fonts/seguibl.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Segoe UI';
+  src: url('/src/assets/fonts/seguibli.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Segoe UI';
+  src: url('/src/assets/fonts/seguili.ttf') format('truetype');
+  font-weight: light;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Segoe UI';
+  src: url('/src/assets/fonts/seguisb.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Segoe UI';
+  src: url('/src/assets/fonts/seguisbi.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Segoe UI';
+  src: url('/src/assets/fonts/seguisli.ttf') format('truetype');
+  font-weight: light;
+  font-style: italic;
 }
