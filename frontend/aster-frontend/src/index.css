@@ -65,6 +65,12 @@ h3 {
   line-height: auto;
 }
 
+h4 {
+  font-size: 1.5rem;
+  font-weight: 'semi-bold';
+  line-height: auto;
+}
+
 @media (max-width: 768px) {
   :root {
     font-size: 14px;
@@ -136,14 +142,14 @@ h3 {
 @font-face {
   font-family: 'Segoe UI';
   src: url('/src/assets/fonts/seguisb.ttf') format('truetype');
-  font-weight: bold;
+  font-weight: 'semi-bold';
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Segoe UI';
   src: url('/src/assets/fonts/seguisbi.ttf') format('truetype');
-  font-weight: bold;
+  font-weight: 'semi-bold';
   font-style: italic;
 }
 
