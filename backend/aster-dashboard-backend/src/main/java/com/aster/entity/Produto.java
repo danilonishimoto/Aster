@@ -43,7 +43,7 @@ public class Produto {
                 ", nome='" + nome + '\'' +
                 ", categoria='" + categoria + '\'' +
                 ", status='" + status + '\'' +
-                ", descricao='" + descricao + '\'' +
+                ", descrição breve='" + descricao + '\'' +
                 '}';
     }
 }
