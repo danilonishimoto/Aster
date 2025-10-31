@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+// Categorias dos status
+public enum Status{
+}
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,21 +17,33 @@ import lombok.Setter;
 public class Produto {
 
     @Id
-    @Column(name="rg")
-    private String rg;
+    @Column(name="id")
+    private int id;
+
+    @Column(name="categoria")
+    private String categoria;
 
     @Column(name="nome")
     private String nome;
 
-    @Column(name="endereco")
-    private String endereco;
+    // Descrição breve
+    @Column(name="descricao")
+    private String descricao;
+
+    @Column(name="status")
+    private Status status;
+
+    @Column(name="icone")
+    private File icone;
 
     @Override
     public String toString() {
-        return "Autor{" +
-                "rg='" + rg + '\'' +
+        return "Produto{" +
+                "id='" + id + '\'' +
                 ", nome='" + nome + '\'' +
-                ", endereco='" + endereco + '\'' +
+                ", categoria='" + categoria + '\'' +
+                ", status='" + status + '\'' +
+                ", descricao='" + descricao + '\'' +
                 '}';
     }
 }
