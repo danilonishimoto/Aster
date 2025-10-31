@@ -7,12 +7,14 @@ import { useOutletContext } from "react-router-dom";
 export default function Login() {
     const { setCurrentUser } = useOutletContext();
     const [profiles, setProfiles] = useState([]);
+    const navigate = useNavigate();
+    
     useEffect(() => {
         fetch('/mocks/profiles.json')
             .then(response => response.json())
             .then(data => setProfiles(data))
     }, []);
-    
+
     return (
         <div className="w-full h-full flex flex-col items-center justify-center bg-[url('/src/assets/backgrounds/login.jpg')] bg-cover bg-center gap-6">
             <img src="/src/assets/logos/logo-white.svg" alt="Aster Logo" className="h-32" />
@@ -23,7 +25,7 @@ export default function Login() {
                             <button className="cursor-pointer" onClick={() => {
                                     console.log("Login: " + `${profile.nome}`);
                                     setCurrentUser(profile.nome);
-                                    useNavigate('/home');
+                                    navigate('/home');
                                 }}>
                                 <img src={profile.avatar} alt={`${profile.nome} Avatar`} className="h-48 w-48 rounded-[1rem] border-1 hover:border-3 border-[var(--content-inverse)]/80 transition" />
                             </button>
