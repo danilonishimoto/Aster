@@ -5,21 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-public enum StatusProdutoCheck{
-    EM_DESENVOLVIMENTO("Em desenvolvimento"),
-    COMERCIALIZAVEL("Comercializável"),
-    DESCONTINUADO("Descontinuado");
-
-    private final String texto;
-
-    StatusProdutoCheck(String texto){
-      this.texto = texto;
-
-    public String getTexto(){
-        return texto;
-    }
-}
-
 @Getter
 @Setter
 @NoArgsConstructor
