@@ -18,7 +18,7 @@ public class Categoria{
     private CategoriaId id;
     
     @Column(name="produto_id", nullable=false)
-    private Produto produto;
+    private Integer produtoId;
 
     @Override
     public String toString(){
