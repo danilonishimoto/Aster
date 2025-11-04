@@ -38,7 +38,6 @@ public class ProdutoVersao{
                 ", dataLancamento='" + dataLancamento + '\'' +
                 ", arquivoInstalador='" + arquivoInstalador + '\'' +
                 ", patchNotes='" + patchNotes + '\'' +
-                ", produtoNome='" + (produto != null ? produto.getNome() : null) + '\'' +
                 '}';
     }
 }
