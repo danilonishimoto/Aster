@@ -27,7 +27,7 @@ public class ProdutoVersao{
     private String patchNotes;
     
     @Column(name="produto_id", nullable=false)
-    private Produto produto;
+    private Integer produtoId;
 
     @Override
     public String toString(){
