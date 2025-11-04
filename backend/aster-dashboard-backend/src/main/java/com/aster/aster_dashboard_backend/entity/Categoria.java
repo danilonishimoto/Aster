@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDate;
+import ids.CategoriaId;
 
 @Getter
 @Setter
@@ -15,14 +16,12 @@ public class Categoria{
 
     @EmbeddedId
     private CategoriaId id;
-
-    @MapsId("produtoId")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "produto_id", nullable = false)
+    
+    @Column(name="produto_id", nullable=false)
     private Produto produto;
 
     @Override
-    public String toString() {
+    public String toString(){
         return "Categoria{" +
                 "categoria='" + id.getCategoria + '\'' +
                 ", produtoId='" + id.getProdutoId + '\'' +
