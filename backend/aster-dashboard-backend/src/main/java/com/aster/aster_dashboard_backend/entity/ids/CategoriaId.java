@@ -1,4 +1,3 @@
-
 package com.aster.aster_dashboard_backend.entity;
 
 import jakarta.persistence.*;
