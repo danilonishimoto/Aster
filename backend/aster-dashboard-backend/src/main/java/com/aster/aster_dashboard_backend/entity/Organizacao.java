@@ -2,6 +2,7 @@ package com.aster.aster_dashboard_backend.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
+@PrimaryKeyJoinColumn(name="cliente_documento")
 @Table(name="organizacao")
 public class Organizacao extends Cliente {
 

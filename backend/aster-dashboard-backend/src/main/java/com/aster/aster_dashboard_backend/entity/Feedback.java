@@ -2,6 +2,7 @@ package com.aster.aster_dashboard_backend.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @Entity
+@PrimaryKeyJoinColumn(name="devolutiva_id")
 @Table(name="feedback")
 public class Feedback extends Devolutiva {
 
