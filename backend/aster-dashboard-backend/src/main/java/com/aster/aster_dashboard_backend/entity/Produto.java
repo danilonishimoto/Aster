@@ -25,6 +25,9 @@ public class Produto{
     @Column(name="descricao_breve")
     private String descricaoBreve;
 
+    @Column(name="descricao_completa")
+    private String descricaoCompleta;
+
     @Column(name="nome")
     private String nome;
 
@@ -35,6 +38,7 @@ public class Produto{
                 ", status='" + status + '\'' +
                 ", icone='" + icone + '\'' +
                 ", descricaoBreve='" + descricaoBreve + '\'' +
+                ", descricaoCompleta='" + descricaoCompleta + '\'' +
                 ", nome='" + nome + '\'' +
                 '}';
     }
