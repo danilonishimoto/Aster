@@ -14,13 +14,13 @@ import java.util.List;
 @NoArgsConstructor
 public class PageResponseDto<T> {
 
-    private int page_number;
-    private long total_registros;
+    private int pageNumber;
+    private long totalEntries;
     private List<T> content;
 
     public PageResponseDto(Page<T> page) {
-        this.page_number = page.getNumber();
-        this.total_registros = page.getTotalElements();
+        this.pageNumber = page.getNumber();
+        this.totalEntries = page.getTotalElements();
         this.content = page.getContent();
     }
 }
