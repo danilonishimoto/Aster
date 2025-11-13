@@ -36,6 +36,11 @@ public class ProdutoController {
         service.create(dto);
     }
 
+    @PatchMapping("/{id}")
+    public void update(@PathVariable String id, @RequestBody ProdutoDto dto) {
+        service.update(id, dto);
+    }
+
     @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
         service.delete(id);

@@ -77,6 +77,59 @@ public class ProdutoService {
     }
 
     @Transactional
+    public void update(String id, ProdutoDto dto) {
+        Optional<Produto> produto = repository.findById(id);
+
+        if (produto.isEmpty()) {
+            throw new IllegalArgumentException("Esse ID não existe!");
+        }
+
+        Produto entity = produto.get();
+
+        if (dto.getStatus() != null) {
+            entity.setStatus(dto.getStatus());
+        }
+
+        if (dto.getIcone() != null) {
+            entity.setIcone(dto.getIcone());
+        }
+
+        if (dto.getDescricaoBreve() != null) {
+            entity.setDescricaoBreve(dto.getDescricaoBreve());
+        }
+
+        if (dto.getDescricao() != null) {
+            entity.setDescricaoCompleta(dto.getDescricao());
+        }
+
+        if (dto.getNome() != null) {
+            entity.setNome(dto.getNome());
+        }
+
+        repository.save(entity);
+
+        if (dto.getCategorias() != null) {
+
+            for (String categoria : categoriaRepository.findNomesByProdutoId(entity.getId())) {
+                CategoriaId categoriaId = new CategoriaId(categoria, entity.getId());
+                Categoria categoriaEntity = categoriaRepository.findById(categoriaId).orElse(null);
+
+                if (categoriaEntity != null) {
+                    categoriaRepository.delete(categoriaEntity);
+                }
+            }
+            List<String> novasCategorias = dto.getCategorias();
+
+            for (String categoria : novasCategorias) {
+                CategoriaId categoriaId = new CategoriaId(categoria, dto.getId());
+                Categoria novaCategoria = new Categoria(categoriaId, entity);
+
+                categoriaRepository.save(novaCategoria);
+            }
+        }
+    }
+
+    @Transactional
     public void delete(String id) {
         Optional<Produto> produto = repository.findById(id);
 
