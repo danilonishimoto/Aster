@@ -15,24 +15,24 @@ function App() {
 
   const userViews = [
     {
-      "user": "Estratégia",
+      "user": "estrategia",
       "d": "Desempenho de Vendas",
       "i": "Demografia"
     },
     {
-      "user": "Tech Lead",
+      "user": "techlead",
       "d": "Métricas de Downloads",
       "i": "Análise de Qualidade"
     },
     {
-      "user": "Finanças",
+      "user": "financas",
       "d": "Métricas de Receita",
       "i": "Indicadores"
     },  
     {
-      "user": "Data Base Admin",
+      "user": "admin",
       "d": ["Desempenho de Vendas", "Métricas de Downloads", "Métricas de Receita"],
-      "i": ["Demografia", "Análise de Qualidade", "Indicadores"]
+      "i": ["Demografia", "Análise de Qualidade", "Indicadores"],
     },
   ]
 
@@ -74,15 +74,15 @@ function App() {
                       <>
                         {Array.isArray(currentView.d)
                           ? currentView.d.map((label, idx) => (
-                              <NavItem key={`d-${idx}`} label={label} onClick={() => {}} />
+                              <NavItem key={`d-${idx}`} label={label} onClick={() => {navigate(`/painel/d/${currentUser}/${label.replace(/[^A-Z]/g, '')}`)}} />
                             ))
-                          : <NavItem label={currentView.d} onClick={() => {}} />}
+                          : <NavItem label={currentView.d} onClick={() => {navigate(`/painel/d/${currentUser}`)}} />}
 
                         {Array.isArray(currentView.i)
                           ? currentView.i.map((label, idx) => (
-                              <NavItem key={`i-${idx}`} label={label} onClick={() => {}} />
+                              <NavItem key={`i-${idx}`} label={label} onClick={() => {navigate(`/painel/i/${currentUser}/${label.replace(/[^A-Z]/g, '')}`)}} />
                             ))
-                          : <NavItem label={currentView.i} onClick={() => {}} />}
+                          : <NavItem label={currentView.i} onClick={() => {navigate(`/painel/i/${currentUser}`)}} />}
                       </>
                     )}
                   </div>

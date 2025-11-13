@@ -5,6 +5,8 @@ import './index.css'
 import App from './App.tsx'
 import Login from './pages/Login.tsx'
 import Exibir from './pages/Exibir.tsx'
+import Desempenho from './pages/Painel/Desempenho.tsx'
+import Indicadores from './pages/Painel/Indicadores.tsx'
 
 const router = createBrowserRouter([
   {
@@ -15,10 +17,10 @@ const router = createBrowserRouter([
 
       { path: 'login', element: <Login /> },/*
       { path: 'home', element: <Home /> },
-      { path: 'docs', element: <Documents /> },
+      { path: 'docs', element: <Documents /> },*/
 
-      { path: 'painel/d/:user', element: <Painel_1 /> },
-      { path: 'painel/i/:user', element: <Painel_2 /> },*/
+      { path: 'painel/d/:user/:view?', element: <Desempenho /> },
+      { path: 'painel/i/:user/:view?', element: <Indicadores /> },
 
       { path: 'operacoes/exibir/:entidade', element: <Exibir /> }, /*
       { path: 'operacoes/alterar/:entidade/:regId', element: <Alterar /> },
