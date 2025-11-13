@@ -35,4 +35,9 @@ public class ProdutoController {
     public void create(@RequestBody ProdutoDto dto) {
         service.create(dto);
     }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) {
+        service.delete(id);
+    }
 }

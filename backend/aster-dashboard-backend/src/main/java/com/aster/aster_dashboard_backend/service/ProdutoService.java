@@ -75,4 +75,27 @@ public class ProdutoService {
             categoriaRepository.save(entity);
         }
     }
+
+    @Transactional
+    public void delete(String id) {
+        Optional<Produto> produto = repository.findById(id);
+
+        if (produto.isEmpty()) {
+            throw new IllegalArgumentException("Esse ID não existe!");
+        }
+
+        Produto entity = produto.get();
+        ProdutoDto dto = converter.toDto(entity);
+
+        for (String categoria : dto.getCategorias()) {
+            CategoriaId categoriaId = new CategoriaId(categoria, dto.getId());
+            Categoria categoriaEntity = categoriaRepository.findById(categoriaId).orElse(null);
+
+            if (categoriaEntity != null) {
+                categoriaRepository.delete(categoriaEntity);
+            }
+        }
+
+        repository.delete(entity);
+    }
 }
