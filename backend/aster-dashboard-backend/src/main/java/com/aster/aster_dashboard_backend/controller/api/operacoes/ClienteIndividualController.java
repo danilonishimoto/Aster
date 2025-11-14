@@ -39,4 +39,9 @@ public class ClienteIndividualController {
     public void update(@PathVariable String documento, @RequestBody ClienteIndividualDto dto) {
         service.update(documento, dto);
     }
+
+    @DeleteMapping("/{documento}")
+    public void delete(@PathVariable String documento) {
+        service.delete(documento);
+    }
 }

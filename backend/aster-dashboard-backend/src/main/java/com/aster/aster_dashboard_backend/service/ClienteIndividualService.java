@@ -87,5 +87,16 @@ public class ClienteIndividualService {
         repository.save(entity);
     }
 
+    @Transactional
+    public void delete(String documento) {
+        Optional<Individual> result = repository.findById(documento);
+
+        if (result.isEmpty()) {
+            throw new IllegalArgumentException("Não há nenhum registro com esse documento!");
+        }
+
+        repository.delete(result.get());
+    }
+
 
 }
