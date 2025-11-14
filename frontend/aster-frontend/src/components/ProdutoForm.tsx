@@ -23,11 +23,22 @@ import { useNavigate } from 'react-router'
 const ProdutoFormSchema = z.object({
     id: z.string().min(1, 'Campo obrigatório'),
     nome: z.string().min(1, 'Campo obrigatório'),
-    categoria: z.string().min(1, 'Campo obrigatório'),
-    versao_atual: z.string().min(1, 'Campo obrigatório'),
-    descricao_breve: z.string().min(1, 'Campo obrigatório'),
-    descricao: z.string().min(1, 'Campo obrigatório'),
+    status: z.string().min(1, 'Campo obrigatório'),
+    descricaoBreve: z.string().min(1, 'Campo obrigatório'),
+    icone: z.string().min(1, 'Campo obrigatório'),
+    categorias: z.array(z.string().min(1, 'Campo obrigatório'))
 })
+
+const Categorias = [
+    "Design",
+    "Social Media",
+    "Fotos", 
+    "Vídeos",
+    "Animação",
+    "Ilustração",
+    "Documentos",
+    "3D",
+]
 
 type ProdutoFormSchemaType = z.infer<typeof ProdutoFormSchema>
 
@@ -50,10 +61,10 @@ export default function ProdutoForm({ produto }: produtoProps) {
     const defaultValues: ProdutoFormSchemaType = {
         id: '',
         nome: '',
-        categoria: '',
-        versao_atual: '',
-        descricao_breve: '',
-        descricao: ''
+        status: '',
+        descricaoBreve: '',
+        icone: '',
+        categorias: ['']
     }
 
     // useForm
@@ -64,10 +75,10 @@ export default function ProdutoForm({ produto }: produtoProps) {
         values: produto && {
             id: produto.id,
             nome: produto.nome,
-            categoria: produto.categoria,
-            versao_atual: produto.versao_atual,
-            descricao_breve: produto.descricao_breve,
-            descricao: produto.descricao
+            status: produto.status,
+            descricaoBreve: produto.descricaoBreve,
+            icone: produto.icone,
+            categorias: produto.categorias
         }
     })
 
