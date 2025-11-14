@@ -5,9 +5,7 @@ import com.aster.aster_dashboard_backend.dto.PageResponseDto;
 import com.aster.aster_dashboard_backend.service.ClienteIndividualService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/operacoes/cliente-individual")
@@ -22,7 +20,18 @@ public class ClienteIndividualController {
 
     @GetMapping
     public PageResponseDto<ClienteIndividualDto> findAll(int page) {
-        Page<ClienteIndividualDto> pagina = service.findAll(page);
+        Page<ClienteIndividualDto> pagina = service.findAllPaginated(page);
         return new PageResponseDto<>(pagina);
+    }
+
+    @GetMapping("/{documento}")
+    public ClienteIndividualDto findByDocumento(@PathVariable String documento) {
+
+        return service.findByDocumento(documento);
+    }
+
+    @PostMapping
+    public void create(@RequestBody ClienteIndividualDto dto) {
+        service.create(dto);
     }
 }
