@@ -5,7 +5,7 @@ import { styled } from "@mui/material/styles";
 const StyledFormControl = styled(FormControl)(() => ({
    width: 'fit-content',
     ".MuiOutlinedInput-root": {
-        minHeight: '50px',
+        minHeight: '60px',
         width: '100%'
     },
     ".MuiInputLabel-root": {
@@ -16,10 +16,9 @@ const StyledFormControl = styled(FormControl)(() => ({
         padding: "0 4px",
     },
     "& .MuiInputLabel-shrink": {
-        transform: "translate(14px, -8px) scale(0.85)",
+        transform: "translate(14px, -10px) scale(0.85)",
     },
     "& .MuiSelect-select": {
-        fontSize: "16px",
         padding: "12px 14px",
     },
     "& .MuiOutlinedInput-notchedOutline": {
@@ -33,8 +32,8 @@ const StyledFormControl = styled(FormControl)(() => ({
 export default function StyledInputSelect(props: SelectProps) {
     return (
         <StyledFormControl variant="outlined" sx={{ width: "100%", ...props.sx }}>
-            <InputLabel shrink>Categoria</InputLabel>
-            <Select {...props}>
+            <InputLabel shrink id={'select-id'}>{props.label}</InputLabel>
+            <Select {...props} value={props.value} labelId="select-id" >
             </Select>
         </StyledFormControl>
     );

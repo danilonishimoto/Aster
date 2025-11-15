@@ -4,9 +4,17 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
 import Login from './pages/Login.tsx'
-import ProdutoForm from '../src/components/ProdutoForm.tsx'
+import ProdutoForm from './components/forms/ProdutoForm.tsx'
 import Exibir from './pages/Exibir.tsx'
->>>>>>> frontend
+import { createTheme } from '@mui/material'
+import { ThemeProvider } from '@mui/material'
+
+// Tema global dos componentes MUI
+  const theme = createTheme({
+    typography: {
+      fontFamily: 'Segoe UI'
+    }
+  })
 
 const router = createBrowserRouter([
   {
@@ -16,7 +24,7 @@ const router = createBrowserRouter([
       { index: true, element: <Login /> },
 
       { path: 'login', element: <Login /> },
-      { path: 'produto/criar', element: <ProdutoForm />}
+      { path: 'operacoes/criar', element: <ProdutoForm />},
       /*
       { path: 'home', element: <Home /> },
       { path: 'docs', element: <Documents /> },
@@ -35,7 +43,9 @@ const router = createBrowserRouter([
 ])
 
 createRoot(document.getElementById('root')!).render(
+  <ThemeProvider theme={theme}>
   <StrictMode>
     <RouterProvider router={router} />
   </StrictMode>,
+  </ThemeProvider>
 )

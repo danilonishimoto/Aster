@@ -3,6 +3,7 @@ export type Produto = {
     nome: string,
     status: string,
     descricaoBreve: string,
+    descricaoCompleta: string,
     icone: string,
-    categoria: string[],
+    categorias: string[],
 }

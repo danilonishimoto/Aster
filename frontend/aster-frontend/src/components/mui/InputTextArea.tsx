@@ -5,15 +5,14 @@ import { styled } from "@mui/material/styles"
 const InputTextArea = styled(TextField)<TextFieldProps>(() => ({
 
     "& .MuiInputBase-input": {
-        fontSize: "16px",
         minHeight: '250px',
         whiteSpace: "pre-wrap", // mantém quebras e espaços
         wordWrap: "break-word",
     },
     '& .MuiFormLabel-root': {
+        fontSize: '20px',
         fontWeight: 'bold',
         color: 'black',
-        fontSize: "18px",
         backgroundColor: '#fff',
         padding: '0 6px 0 0px',
     },
