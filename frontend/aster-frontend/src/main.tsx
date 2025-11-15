@@ -5,8 +5,7 @@ import './index.css'
 import App from './App.tsx'
 import Login from './pages/Login.tsx'
 import Exibir from './pages/Exibir.tsx'
-import Desempenho from './pages/Painel/Desempenho.tsx'
-import Indicadores from './pages/Painel/Indicadores.tsx'
+import { painelRoutes } from './pages/Painel.tsx'
 
 const router = createBrowserRouter([
   {
@@ -19,15 +18,14 @@ const router = createBrowserRouter([
       { path: 'home', element: <Home /> },
       { path: 'docs', element: <Documents /> },*/
 
-      { path: 'painel/d/:user', element: <Desempenho /> },
-      { path: 'painel/i/:user', element: <Indicadores /> },
-
       { path: 'operacoes/exibir/:entidade', element: <Exibir /> }, /*
       { path: 'operacoes/alterar/:entidade/:regId', element: <Alterar /> },
       { path: 'operacoes/criar/:entidade/:regId?', element: <Criar /> }
 
       { path: 'suporte/devolutivas', element: <Devolutivas /> },
       { path: 'suporte/responder', element: <Responder /> },*/
+
+      ...painelRoutes,
     ]
   }
 ])
