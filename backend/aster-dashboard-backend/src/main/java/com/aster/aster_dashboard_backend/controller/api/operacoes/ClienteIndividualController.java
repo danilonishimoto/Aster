@@ -19,7 +19,7 @@ public class ClienteIndividualController {
     }
 
     @GetMapping
-    public PageResponseDto<ClienteIndividualDto> findAll(int page) {
+    public PageResponseDto<ClienteIndividualDto> findAll(@RequestParam int page) {
         Page<ClienteIndividualDto> pagina = service.findAllPaginated(page);
         return new PageResponseDto<>(pagina);
     }

@@ -20,7 +20,7 @@ public class ClienteOrganizacaoController {
     }
 
     @GetMapping
-    public PageResponseDto<ClienteOrganizacaoDto> findAllPaginated(int page) {
+    public PageResponseDto<ClienteOrganizacaoDto> findAllPaginated(@RequestParam int page) {
         Page<ClienteOrganizacaoDto> pagina = service.findAllPaginated(page);
         return new PageResponseDto<>(pagina);
     }
