@@ -4,5 +4,5 @@
     "status": "Comercializável",
     "descricaoBreve": "Software de edição e organização de fotos com recursos avançados.",
     "icone": "xyz.png",
-    "categoria": ["Fotos", "Vídeo", "Edição"]
+    "categorias": ["Fotos", "Vídeo", "Edição"]
 }

@@ -1,12 +1,3 @@
-// ----- To-do -----
-// 1. Validação com zod ok
-// 2. Estrutura do form com MUI
-// 3. HandleSubmit com o hook de CREATE/EDIT
-// 4. Caso a entidade contenha chaves estrangeiras com poucos registro, fazem select
-// 5. Utilizar o RHF para controlar o form
-// 6. Colocar o router  
-// ----- * -----
-
 import type { Versao } from '../../types/versao'
 import type { SubmitHandler } from 'react-hook-form'
 import { Controller } from 'react-hook-form'

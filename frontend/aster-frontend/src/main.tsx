@@ -11,6 +11,7 @@ import { ThemeProvider } from '@mui/material'
 // Teste das telas de formulário
 import ProdutoForm from './components/forms/ProdutoForm.tsx'
 import VersaoForm from './components/forms/VersaoForm.tsx'
+import PacoteForm from './components/forms/PacoteForm.tsx'
 
 // Tema global dos componentes MUI
   const theme = createTheme({
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
       { path: 'login', element: <Login /> },
       { path: 'operacoes/criar/produto', element: <ProdutoForm />},
       { path: 'operacoes/criar/versao', element: <VersaoForm />},
+      {path: 'operacoes/criar/pacote', element: <PacoteForm />},
       /*
       { path: 'home', element: <Home /> },
       { path: 'docs', element: <Documents /> },
