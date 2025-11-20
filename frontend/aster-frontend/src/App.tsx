@@ -68,7 +68,7 @@ function App() {
               
               <img src="/src/assets/logos/dashboard-black.svg" alt="Aster Logo" className="h-12" />
               <div className="w-full flex flex-col items-center justify-start gap-3">
-                <NavItem label="Início" onClick={() => {}} />
+                <NavItem label="Início" onClick={() => {navigate('/home')}} />
                 <NavItem label="Documentação" onClick={() => {}} />
               </div>
 
