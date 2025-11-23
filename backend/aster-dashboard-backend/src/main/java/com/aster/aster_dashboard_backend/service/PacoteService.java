@@ -56,6 +56,10 @@ public class PacoteService {
         return repository.findReceitaMensalPacote();
     }
 
+    public List<MediaAvaliacoesPacoteDto> findMediaAvaliacoesPacote() {
+        return repository.findMediaAvaliacoesPacote();
+    }
+
     @Transactional
     public void create(PacoteDto dto) {
 

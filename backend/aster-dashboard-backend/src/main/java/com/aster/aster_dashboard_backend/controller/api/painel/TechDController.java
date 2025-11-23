@@ -1,5 +1,6 @@
 package com.aster.aster_dashboard_backend.controller.api.painel;
 
+import com.aster.aster_dashboard_backend.dto.MediaAvaliacoesPacoteDto;
 import com.aster.aster_dashboard_backend.dto.UsuariosProdutoDto;
 import com.aster.aster_dashboard_backend.repository.UsuarioRepository;
 import com.aster.aster_dashboard_backend.service.PacoteService;
@@ -26,5 +27,10 @@ public class TechDController {
     @GetMapping("/usuarios-produto")
     public List<UsuariosProdutoDto> findUsuariosProduto() {
         return usuarioService.findUsuariosProduto();
+    }
+
+    @GetMapping("/media-avaliacoes-pacote")
+    public List<MediaAvaliacoesPacoteDto> findMediaAvaliacoesPacote() {
+        return pacoteService.findMediaAvaliacoesPacote();
     }
 }

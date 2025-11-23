@@ -1,9 +1,6 @@
 package com.aster.aster_dashboard_backend.repository;
 
-import com.aster.aster_dashboard_backend.dto.ReceitaMensalPacoteDto;
-import com.aster.aster_dashboard_backend.dto.ReceitaTotalPacoteDto;
-import com.aster.aster_dashboard_backend.dto.TotalVendasPacoteDto;
-import com.aster.aster_dashboard_backend.dto.VendasMensaisPacoteDto;
+import com.aster.aster_dashboard_backend.dto.*;
 import com.aster.aster_dashboard_backend.entity.Pacote;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -47,4 +44,14 @@ public interface PacoteRepository extends JpaRepository<Pacote, String> {
         GROUP BY DATE_TRUNC('month', l.dataRegistro), p.nome
     """)
     public List<ReceitaMensalPacoteDto> findReceitaMensalPacote();
+
+    @Query("""
+        SELECT new com.aster.aster_dashboard_backend.dto.MediaAvaliacoesPacoteDto(p.nome, CAST(AVG(f.avaliacao) AS bigdecimal))
+        FROM Pacote p
+        JOIN Contem c ON p.nome = c.id.pacoteNome
+        JOIN Devolutiva d ON c.id.produtoId = d.produto.id
+        JOIN Feedback f ON d.id = f.id
+        GROUP BY p.nome
+    """)
+    public List<MediaAvaliacoesPacoteDto> findMediaAvaliacoesPacote();
 }
