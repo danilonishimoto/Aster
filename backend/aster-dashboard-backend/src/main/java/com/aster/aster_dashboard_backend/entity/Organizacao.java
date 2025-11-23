@@ -22,7 +22,7 @@ public class Organizacao extends Cliente {
     @Column(name="setor_atuacao")
     private String setorAtuacao;
 
-    public Organizacao(String documento, String nome, String email, String regiao, String continente, String telefone, String porte, String setorAtuacao) {
+    public Organizacao(String documento, String nome, String email, String regiao, String telefone, String continente, String porte, String setorAtuacao) {
         super(documento, nome, email, regiao, continente, telefone);
         this.porte = porte;
         this.setorAtuacao = setorAtuacao;

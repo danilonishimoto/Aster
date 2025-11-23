@@ -15,6 +15,7 @@ public class ClienteIndividualConverter {
                 .nome(entity.getNome())
                 .email(entity.getEmail())
                 .regiao(entity.getRegiao())
+                .continente(entity.getDocumento())
                 .documento(entity.getDocumento())
                 .telefone(entity.getTelefone())
                 .atividadeUso(entity.getAtividadeUso())
