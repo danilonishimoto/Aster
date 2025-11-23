@@ -54,4 +54,14 @@ public interface PacoteRepository extends JpaRepository<Pacote, String> {
         GROUP BY p.nome
     """)
     public List<MediaAvaliacoesPacoteDto> findMediaAvaliacoesPacote();
+
+    @Query("""
+        SELECT new com.aster.aster_dashboard_backend.dto.AvaliacaoMensalPacoteDto(p.nome, DATE_TRUNC('month', d.dataEnvio), CAST(AVG(f.avaliacao) AS bigdecimal))
+        FROM Pacote p
+        JOIN Contem c ON p.nome = c.id.pacoteNome
+        JOIN Devolutiva d ON c.id.produtoId = d.produto.id
+        JOIN Feedback f ON d.id = f.id
+        GROUP BY DATE_TRUNC('month', d.dataEnvio), p.nome
+    """)
+    public List<AvaliacaoMensalPacoteDto> findAvaliacaoMensalPacote();
 }
