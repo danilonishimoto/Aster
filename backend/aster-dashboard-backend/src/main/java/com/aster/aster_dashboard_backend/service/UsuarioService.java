@@ -1,6 +1,7 @@
 package com.aster.aster_dashboard_backend.service;
 
 import com.aster.aster_dashboard_backend.dto.UsuarioDto;
+import com.aster.aster_dashboard_backend.dto.UsuariosProdutoDto;
 import com.aster.aster_dashboard_backend.entity.Usuario;
 import com.aster.aster_dashboard_backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,6 +36,10 @@ public class UsuarioService {
         }
 
         return result.get();
+    }
+
+    public List<UsuariosProdutoDto> findUsuariosProdutos() {
+        return repository.findUsuariosProduto();
     }
 
     @Transactional

@@ -1,0 +1,30 @@
+package com.aster.aster_dashboard_backend.controller.api.painel;
+
+import com.aster.aster_dashboard_backend.dto.UsuariosProdutoDto;
+import com.aster.aster_dashboard_backend.repository.UsuarioRepository;
+import com.aster.aster_dashboard_backend.service.PacoteService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/painel/d/tech")
+public class TechDController {
+
+    private UsuarioRepository usuarioService;
+    private PacoteService pacoteService;
+
+    @Autowired
+    public TechDController(UsuarioRepository usuarioService, PacoteService pacoteService) {
+        this.usuarioService = usuarioService;
+        this.pacoteService = pacoteService;
+    }
+
+    @GetMapping("/usuarios-produto")
+    public List<UsuariosProdutoDto> findUsuariosProduto() {
+        return usuarioService.findUsuariosProduto();
+    }
+}
