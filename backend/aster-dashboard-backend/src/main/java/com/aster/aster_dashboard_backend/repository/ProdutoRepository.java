@@ -1,6 +1,7 @@
 package com.aster.aster_dashboard_backend.repository;
 
 import com.aster.aster_dashboard_backend.dto.ProdutoInicioDto;
+import com.aster.aster_dashboard_backend.dto.TotalVendasPacoteDto;
 import com.aster.aster_dashboard_backend.dto.TotalVendasProdutoDto;
 import com.aster.aster_dashboard_backend.entity.Produto;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -29,7 +30,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, String> {
         """)
     public List<ProdutoInicioDto> findProdutosInicio();
 
-    @Query(value = """
+    @Query("""
         SELECT new com.aster.aster_dashboard_backend.dto.TotalVendasProdutoDto(p.nome, COUNT(*))
         FROM Adquire a
         LEFT JOIN Licenca l ON a.id.licencaId = l.id
@@ -37,4 +38,12 @@ public interface ProdutoRepository extends JpaRepository<Produto, String> {
         GROUP BY p.nome
     """)
     public List<TotalVendasProdutoDto> findTotalVendasProduto();
+
+    @Query("""
+        SELECT new com.aster.aster_dashboard_backend.dto.TotalVendasPacoteDto(p.nome, COUNT(*))
+        FROM Adquire a
+        LEFT JOIN Pacote p ON a.id.pacoteNome = p.nome
+        GROUP BY p.nome
+    """)
+    public List<TotalVendasPacoteDto> findTotalVendasPacote();
 }

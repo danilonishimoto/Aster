@@ -3,6 +3,7 @@ package com.aster.aster_dashboard_backend.service;
 import com.aster.aster_dashboard_backend.converter.ProdutoConverter;
 import com.aster.aster_dashboard_backend.dto.ProdutoDto;
 import com.aster.aster_dashboard_backend.dto.ProdutoInicioDto;
+import com.aster.aster_dashboard_backend.dto.TotalVendasPacoteDto;
 import com.aster.aster_dashboard_backend.dto.TotalVendasProdutoDto;
 import com.aster.aster_dashboard_backend.entity.Categoria;
 import com.aster.aster_dashboard_backend.entity.Produto;
@@ -54,8 +55,11 @@ public class ProdutoService {
     }
 
     public List<TotalVendasProdutoDto> findTotalVendasProduto() {
-
         return repository.findTotalVendasProduto();
+    }
+
+    public List<TotalVendasPacoteDto> findTotalVendasPacote() {
+        return repository.findTotalVendasPacote();
     }
 
     @Transactional

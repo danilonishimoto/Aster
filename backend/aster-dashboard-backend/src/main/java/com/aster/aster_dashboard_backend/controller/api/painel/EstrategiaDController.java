@@ -1,5 +1,6 @@
 package com.aster.aster_dashboard_backend.controller.api.painel;
 
+import com.aster.aster_dashboard_backend.dto.TotalVendasPacoteDto;
 import com.aster.aster_dashboard_backend.dto.TotalVendasProdutoDto;
 import com.aster.aster_dashboard_backend.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,10 @@ public class EstrategiaDController {
     @GetMapping("/total-vendas-produto")
     public List<TotalVendasProdutoDto> findTotalVendasProduto() {
         return produtoService.findTotalVendasProduto();
+    }
+
+    @GetMapping("/total-vendas-pacote")
+    public List<TotalVendasPacoteDto> findTotalVendasPacote() {
+        return produtoService.findTotalVendasPacote();
     }
 }
