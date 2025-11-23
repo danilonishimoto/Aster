@@ -16,6 +16,7 @@ import { type SelectChangeEvent } from '@mui/material'
 import Glass from '../Glass.tsx'
 import ProfileMenu from '../ProfileMenu.tsx'
 import { CriarPacote, EditarPacote } from '../../actions/Pacote.ts'
+import SubmitDialog from '../mui/SubmitDialog.tsx'
 
 // Schema para validação da entidade
 const PacoteFormSchema = z.object({
@@ -150,12 +151,7 @@ export default function PacoteForm({ pacote }: pacoteProps) {
                             )}
                         />
                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <Button
-                                variant='black'
-                                label={pacote ? 'Editar ' : 'Criar '}
-                                onClick={() => console.log('Payload enviado com sucesso')}
-                            >
-                            </Button>
+                            <SubmitDialog label={pacote ? 'Editar ' : 'Criar '} handleSubmit={handleSubmit(handleCreateEdit)} />
                         </Box>
                     </Stack>
                 </Card>

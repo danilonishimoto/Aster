@@ -11,13 +11,16 @@ import { ListProduto } from '../../actions/Produto.ts'
 import StyledInputText from '../mui/InputText.tsx'
 import StyledInputTextArea from '../mui/InputTextArea.tsx'
 import StyledInputSelect from '../mui/InputSelect.tsx'
-import StyledInputMultiSelect from '../mui/InputMultiSelect.tsx'
 import Button from '../Button.tsx'
 import { useEffect, useState } from 'react'
-import { type SelectChangeEvent } from '@mui/material'
 import Glass from '../Glass.tsx'
 import ProfileMenu from '../ProfileMenu.tsx'
 import type { ProdutoFormSchemaType } from './ProdutoForm.tsx'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import dayjs from 'dayjs'
+import SubmitDialog from '../mui/SubmitDialog.tsx'
 
 const VersaoFormSchema = z.object({
     numeroVersao: z.string().length(7, 'Campo obrigatório'),
@@ -61,7 +64,7 @@ export default function VersaoForm({ versao }: versaoProps) {
     })
 
     // Methods do useForm
-    const { handleSubmit, reset, control } = methods
+    const { handleSubmit, reset, control, watch } = methods
 
     // Handler criar/editar
     const handleCreateEdit: SubmitHandler<VersaoFormSchemaType> = (async (data) => {
@@ -69,10 +72,10 @@ export default function VersaoForm({ versao }: versaoProps) {
         try {
             if (versao) {
                 // Hook de edit
-                await EditarVersao(data)
+                await EditarVersao({ ...data, dataLancamento: dayjs(data.dataLancamento).format('YYYY-MM-DD') })
                 console.log('Edit - Payload enviado: ' + JSON.stringify(data))
             } else {
-                await CriarVersao(data)
+                await CriarVersao({ ...data, dataLancamento: dayjs(data.dataLancamento).format('YYYY-MM-DD') })
                 console.log('Create - Payload enviaod: ' + JSON.stringify(data))
                 // Hook de criar
             }
@@ -93,6 +96,8 @@ export default function VersaoForm({ versao }: versaoProps) {
         fetchData();
     }, []);
 
+    // Date pickers
+        dayjs.locale('pt-br')
 
     return (
         <form onSubmit={handleSubmit(handleCreateEdit)}>
@@ -153,19 +158,48 @@ export default function VersaoForm({ versao }: versaoProps) {
                         </Stack>
                         <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Controller
-                                name="dataLancamento"
+                                name='dataLancamento'
                                 control={control}
                                 render={({ field }) => (
-                                    <StyledInputText
-                                        label="Data de Lançamento"
-                                        placeholder="Data de lançamento"
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        onBlur={field.onBlur}
-                                        inputRef={field.ref}
-                                        slotProps={{ inputLabel: { shrink: true } }}
-                                        sx={{ width: '48%' }}
-                                    />
+                                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='pt-br'>
+                                        <Box sx={{ width: '48%' }}>
+                                            <DatePicker
+                                                label="Data de lançamento"
+                                                value={field.value ? dayjs(field.value) : null}
+                                                onChange={(newValue) => {
+                                                    field.onChange(newValue ? newValue.format("YYYY-MM-DD") : "");
+                                                }}
+                                                format='DD/MM/YYYY'
+                                                slotProps={{
+                                                    textField: {
+                                                        InputLabelProps: {
+                                                            shrink: true
+                                                        },
+                                                        fullWidth: true,
+                                                        sx: {
+                                                            "& .MuiInputLabel-root": {
+                                                                fontWeight: "bold",
+                                                                fontSize: '20px',
+                                                                padding: '0 6px 0 0px',
+                                                                backgroundColor: "#fff",
+                                                                color: 'black'
+                                                            },
+                                                            "& .MuiPickersInputBase-root": {
+                                                                height: 50,
+                                                                minHeight: 50,
+                                                                display: "flex",
+                                                                alignItems: "center",
+                                                            },
+
+                                                            "& .MuiOutlinedInput-input": {
+                                                                padding: "0 14px",
+                                                            },
+                                                        }
+                                                    }
+                                                }}
+                                            />
+                                        </Box>
+                                    </LocalizationProvider>
                                 )}
                             />
 
@@ -203,13 +237,8 @@ export default function VersaoForm({ versao }: versaoProps) {
                             )}
                         />
                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                        <Button
-                            variant='black'
-                            label={versao ? 'Editar ' : 'Criar '}
-                            onClick={handleSubmit(handleCreateEdit)}
-                        >
-                        </Button>
-                    </Box>
+                            <SubmitDialog label={versao ? 'Editar ' : 'Criar '} handleSubmit={handleSubmit(handleCreateEdit)}/>
+                        </Box>
                     </Stack>
                 </Card>
             </Stack>

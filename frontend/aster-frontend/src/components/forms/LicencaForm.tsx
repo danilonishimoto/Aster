@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react'
 import Glass from '../Glass.tsx'
 import ProfileMenu from '../ProfileMenu.tsx'
 import type { ProdutoFormSchemaType } from './ProdutoForm.tsx'
+import SubmitDialog from '../mui/SubmitDialog.tsx'
 
 const LicencaFormSchema = z.object({
     id: z.string().min(1, 'Campo obrigatório').max(20, 'Limite máximo de caracteres'),
@@ -213,12 +214,7 @@ export default function LicencaForm({ licenca }: licencaProps) {
                             />
                         </Box>
                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <Button
-                                variant='black'
-                                label={licenca ? 'Editar ' : 'Criar '}
-                                onClick={handleSubmit(handleCreateEdit)}
-                            >
-                            </Button>
+                            <SubmitDialog label={licenca ? 'Editar ' : 'Criar '} handleSubmit={handleSubmit(handleCreateEdit)} />
                         </Box>
                     </Stack>
                 </Card>

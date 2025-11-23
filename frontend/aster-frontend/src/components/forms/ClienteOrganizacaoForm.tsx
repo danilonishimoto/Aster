@@ -14,6 +14,7 @@ import ProfileMenu from '../ProfileMenu.tsx'
 import { CriarClienteOrganizacao, EditarClienteOrganizacao } from '../../actions/cliente/ClienteOrganizacao.ts'
 import countries from 'i18n-iso-countries'
 import pt from "i18n-iso-countries/langs/pt.json";
+import SubmitDialog from '../mui/SubmitDialog.tsx'
 
 // Schema para validação da entidade
 const ClienteOrganizacaoFormSchema = z.object({
@@ -85,7 +86,7 @@ export default function ClienteOrganizacaoForm({ clienteOrganizacao }: clienteOr
 
     // Lista portes
     const portes = [
-        'Pequena', 
+        'Pequena',
         'Média',
         'Grande',
         'Imensa',
@@ -276,12 +277,7 @@ export default function ClienteOrganizacaoForm({ clienteOrganizacao }: clienteOr
                             />
                         </Stack>
                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <Button
-                                variant='black'
-                                label={clienteOrganizacao ? 'Editar ' : 'Criar '}
-                                onClick={() => console.log('Payload enviado com sucesso')}
-                            >
-                            </Button>
+                            <SubmitDialog label={clienteOrganizacao ? 'Editar ' : 'Criar '} handleSubmit={handleSubmit(handleCreateEdit)} />
                         </Box>
                     </Stack>
                 </Card>

@@ -21,6 +21,7 @@ import { useEffect } from 'react'
 import Glass from '../Glass.tsx'
 import ProfileMenu from '../ProfileMenu.tsx'
 import { CriarUsuario, EditarUsuario } from '../../actions/Usuario.ts'
+import SubmitDialog from '../mui/SubmitDialog.tsx'
 
 // Schema para validação da entidade
 const UsuarioFormSchema = z.object({
@@ -30,7 +31,7 @@ const UsuarioFormSchema = z.object({
 export type UsuarioFormSchemaType = z.infer<typeof UsuarioFormSchema>
 
 type usuarioProps = {
-    usuario?: Usuario 
+    usuario?: Usuario
 }
 
 // Props do produto em caso de edit
@@ -55,7 +56,7 @@ export default function UsuarioForm({ usuario }: usuarioProps) {
 
     // Methods do useForm
     const { handleSubmit, reset, control } = methods
-    
+
     // Debug
     useEffect(() => {
         console.log(methods.getValues())
@@ -101,30 +102,25 @@ export default function UsuarioForm({ usuario }: usuarioProps) {
                     </Typography>
                     <Stack spacing={4}>
                         <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Controller
-                            name="chaveUso"
-                            control={control}
-                            render={({ field }) => (
-                                <StyledInputText
-                                    label="Chave de uso"
-                                    placeholder="Chave de uso"
-                                    value={field.value}
-                                    onChange={field.onChange}
-                                    onBlur={field.onBlur}
-                                    inputRef={field.ref}
-                                    slotProps={{ inputLabel: { shrink: true } }}
-                                    sx={{ width: '100%' }}
-                                />
-                            )}
-                        />
+                            <Controller
+                                name="chaveUso"
+                                control={control}
+                                render={({ field }) => (
+                                    <StyledInputText
+                                        label="Chave de uso"
+                                        placeholder="Chave de uso"
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        onBlur={field.onBlur}
+                                        inputRef={field.ref}
+                                        slotProps={{ inputLabel: { shrink: true } }}
+                                        sx={{ width: '100%' }}
+                                    />
+                                )}
+                            />
                         </Stack>
                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <Button
-                                variant='black'
-                                label={usuario ? 'Editar ' : 'Criar '}
-                                onClick={() => console.log('Payload enviado com sucesso')}
-                            >
-                            </Button>
+                                <SubmitDialog label={usuario ? 'Editar ' : 'Criar '} handleSubmit={handleSubmit(handleCreateEdit)} />
                         </Box>
                     </Stack>
                 </Card>

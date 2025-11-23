@@ -21,6 +21,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import SubmitDialog from '../mui/SubmitDialog.tsx'
 
 // Schema para validação da entidade
 const DevolutivaFeedbackFormSchema = z.object({
@@ -99,7 +100,7 @@ export default function DevolutivaFeedbackForm({ devolutivaFeedback }: devolutiv
     // Date pickers
     dayjs.locale('pt-br')
     console.log(dayjs(methods.watch('dataEnvio')).format('YYYY-MM-DD'))
-    console.log(typeof(methods.watch('dataEnvio')))
+    console.log(typeof (methods.watch('dataEnvio')))
 
     // Get de produtos
     const [produtos, setProdutos] = useState<ProdutoFormSchemaType[]>([]);
@@ -299,14 +300,8 @@ export default function DevolutivaFeedbackForm({ devolutivaFeedback }: devolutiv
                                 )}
                             />
                         </Stack>
-
                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <Button
-                                variant='black'
-                                label={devolutivaFeedback ? 'Editar ' : 'Criar '}
-                                onClick={() => console.log('Payload enviado com sucesso')}
-                            >
-                            </Button>
+                            <SubmitDialog label={devolutivaFeedback ? 'Editar ' : 'Criar '} handleSubmit={handleSubmit(handleCreateEdit)} />
                         </Box>
                     </Stack>
                 </Card>

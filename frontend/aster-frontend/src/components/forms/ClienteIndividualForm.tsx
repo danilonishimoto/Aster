@@ -14,6 +14,7 @@ import ProfileMenu from '../ProfileMenu.tsx'
 import { CriarClienteIndividual, EditarClienteIndividual } from '../../actions/cliente/ClienteIndividual.ts'
 import countries from 'i18n-iso-countries'
 import pt from "i18n-iso-countries/langs/pt.json";
+import SubmitDialog from '../mui/SubmitDialog.tsx'
 
 // Schema para validação da entidade
 const ClienteIndividualFormSchema = z.object({
@@ -193,7 +194,7 @@ export default function ClienteIndividualForm({ clienteIndividual }: clienteIndi
                                 )}
                             />
                         </Stack>
-                         <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Controller
                                 name="email"
                                 control={control}
@@ -228,28 +229,23 @@ export default function ClienteIndividualForm({ clienteIndividual }: clienteIndi
                             />
                         </Stack>
                         <Controller
-                                name="atividadeUso"
-                                control={control}
-                                render={({ field }) => (
-                                    <StyledInputText
-                                        label="Atividade de Uso"
-                                        placeholder="Atividade de Uso"
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        onBlur={field.onBlur}
-                                        inputRef={field.ref}
-                                        slotProps={{ inputLabel: { shrink: true } }}
-                                        sx={{ width: '48%' }}
-                                    />
-                                )}
-                            />
+                            name="atividadeUso"
+                            control={control}
+                            render={({ field }) => (
+                                <StyledInputText
+                                    label="Atividade de Uso"
+                                    placeholder="Atividade de Uso"
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    onBlur={field.onBlur}
+                                    inputRef={field.ref}
+                                    slotProps={{ inputLabel: { shrink: true } }}
+                                    sx={{ width: '48%' }}
+                                />
+                            )}
+                        />
                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <Button
-                                variant='black'
-                                label={clienteIndividual ? 'Editar ' : 'Criar '}
-                                onClick={() => console.log('Payload enviado com sucesso')}
-                            >
-                            </Button>
+                            <SubmitDialog label={clienteIndividual ? 'Editar ' : 'Criar '} handleSubmit={handleSubmit(handleCreateEdit)} />
                         </Box>
                     </Stack>
                 </Card>

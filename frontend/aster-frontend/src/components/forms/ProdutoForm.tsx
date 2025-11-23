@@ -25,6 +25,7 @@ import { type SelectChangeEvent } from '@mui/material'
 import Glass from '../Glass.tsx'
 import ProfileMenu from '../ProfileMenu.tsx'
 import { CriarProduto, EditarProduto } from '../../actions/Produto.ts'
+import SubmitDialog from '../mui/SubmitDialog.tsx'
 
 // Schema para validação da entidade
 const ProdutoFormSchema = z.object({
@@ -40,7 +41,7 @@ const ProdutoFormSchema = z.object({
 export type ProdutoFormSchemaType = z.infer<typeof ProdutoFormSchema>
 
 type produtoProps = {
-    produto?: Produto 
+    produto?: Produto
 }
 
 // Props do produto em caso de edit
@@ -96,7 +97,7 @@ export default function ProdutoForm({ produto }: produtoProps) {
         'Ilustração',
         'Documentos', '3D'
     ]
-    
+
     // Debug
     useEffect(() => {
         console.log(methods.getValues())
@@ -272,12 +273,7 @@ export default function ProdutoForm({ produto }: produtoProps) {
                             )}
                         />
                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <Button
-                                variant='black'
-                                label={produto ? 'Editar ' : 'Criar '}
-                                onClick={() => console.log('Payload enviado com sucesso')}
-                            >
-                            </Button>
+                            <SubmitDialog label={produto ? 'Editar ' : 'Criar '} handleSubmit={handleSubmit(handleCreateEdit)} />
                         </Box>
                     </Stack>
                 </Card>

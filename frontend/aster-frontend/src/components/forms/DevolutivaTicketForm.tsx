@@ -21,6 +21,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import SubmitDialog from '../mui/SubmitDialog.tsx'
 
 // Schema para validação da entidade
 const DevolutivaTicketFormSchema = z.object({
@@ -311,12 +312,7 @@ export default function DevolutivaTicketForm({ devolutivaTicket }: devolutivaTic
                         </Stack>
 
                         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <Button
-                                variant='black'
-                                label={devolutivaTicket ? 'Editar ' : 'Criar '}
-                                onClick={() => console.log('Payload enviado com sucesso')}
-                            >
-                            </Button>
+                            <SubmitDialog label={devolutivaTicket ? 'Editar ' : 'Criar '} handleSubmit={handleSubmit(handleCreateEdit)} />
                         </Box>
                     </Stack>
                 </Card>
