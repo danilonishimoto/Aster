@@ -1,7 +1,7 @@
 package com.aster.aster_dashboard_backend.service;
 
 import com.aster.aster_dashboard_backend.converter.PacoteConverter;
-import com.aster.aster_dashboard_backend.dto.PacoteDto;
+import com.aster.aster_dashboard_backend.dto.*;
 import com.aster.aster_dashboard_backend.entity.Pacote;
 import com.aster.aster_dashboard_backend.repository.PacoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,6 +38,30 @@ public class PacoteService {
         }
 
         return converter.toDto(result.get());
+    }
+
+    public List<TotalVendasPacoteDto> findTotalVendasPacote() {
+        return repository.findTotalVendasPacote();
+    }
+
+    public List<VendasMensaisPacoteDto> findVendasMensaisPacote() {
+        return repository.findVendasMensaisPacote();
+    }
+
+    public List<ReceitaTotalPacoteDto> findReceitaTotalPacote() {
+        return repository.findReceitaTotalPacote();
+    }
+
+    public List<ReceitaMensalPacoteDto> findReceitaMensalPacote() {
+        return repository.findReceitaMensalPacote();
+    }
+
+    public List<MediaAvaliacoesPacoteDto> findMediaAvaliacoesPacote() {
+        return repository.findMediaAvaliacoesPacote();
+    }
+
+    public List<AvaliacaoMensalPacoteDto> findAvaliacaoMensalPacote() {
+        return repository.findAvaliacaoMensalPacote();
     }
 
     @Transactional

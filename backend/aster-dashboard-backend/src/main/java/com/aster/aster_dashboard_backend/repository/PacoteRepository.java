@@ -1,9 +1,67 @@
 package com.aster.aster_dashboard_backend.repository;
 
+import com.aster.aster_dashboard_backend.dto.*;
 import com.aster.aster_dashboard_backend.entity.Pacote;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface PacoteRepository extends JpaRepository<Pacote, String> {
+
+    @Query("""
+        SELECT new com.aster.aster_dashboard_backend.dto.TotalVendasPacoteDto(p.nome, COUNT(*))
+        FROM Adquire a
+        LEFT JOIN Pacote p ON a.id.pacoteNome = p.nome
+        GROUP BY p.nome
+    """)
+    public List<TotalVendasPacoteDto> findTotalVendasPacote();
+
+    @Query("""
+        SELECT new com.aster.aster_dashboard_backend.dto.VendasMensaisPacoteDto(p.nome, DATE_TRUNC('month', l.dataRegistro), COUNT(*))
+        FROM Adquire a
+        LEFT JOIN Licenca l ON a.id.licencaId = l.id
+        LEFT JOIN Pacote p ON a.id.pacoteNome = p.nome
+        GROUP BY DATE_TRUNC('month', l.dataRegistro), p.nome
+    """)
+    public List<VendasMensaisPacoteDto> findVendasMensaisPacote();
+
+    @Query("""
+        SELECT new com.aster.aster_dashboard_backend.dto.ReceitaTotalPacoteDto(p.nome, CAST((SUM(p.precoIndividual) + SUM(p.precoOrganizacional)) AS bigdecimal))
+        FROM Adquire a
+        LEFT JOIN Pacote p ON a.id.pacoteNome = p.nome
+        GROUP BY p.nome
+    """)
+    public List<ReceitaTotalPacoteDto> findReceitaTotalPacote();
+
+    @Query("""
+        SELECT new com.aster.aster_dashboard_backend.dto.ReceitaMensalPacoteDto(p.nome, DATE_TRUNC('month', l.dataRegistro), CAST((SUM(p.precoIndividual) + SUM(p.precoOrganizacional)) AS bigdecimal))
+        FROM Adquire a
+        LEFT JOIN Licenca l ON a.id.licencaId = l.id
+        LEFT JOIN Pacote p ON a.id.pacoteNome = p.nome
+        GROUP BY DATE_TRUNC('month', l.dataRegistro), p.nome
+    """)
+    public List<ReceitaMensalPacoteDto> findReceitaMensalPacote();
+
+    @Query("""
+        SELECT new com.aster.aster_dashboard_backend.dto.MediaAvaliacoesPacoteDto(p.nome, CAST(AVG(f.avaliacao) AS bigdecimal))
+        FROM Pacote p
+        JOIN Contem c ON p.nome = c.id.pacoteNome
+        JOIN Devolutiva d ON c.id.produtoId = d.produto.id
+        JOIN Feedback f ON d.id = f.id
+        GROUP BY p.nome
+    """)
+    public List<MediaAvaliacoesPacoteDto> findMediaAvaliacoesPacote();
+
+    @Query("""
+        SELECT new com.aster.aster_dashboard_backend.dto.AvaliacaoMensalPacoteDto(p.nome, DATE_TRUNC('month', d.dataEnvio), CAST(AVG(f.avaliacao) AS bigdecimal))
+        FROM Pacote p
+        JOIN Contem c ON p.nome = c.id.pacoteNome
+        JOIN Devolutiva d ON c.id.produtoId = d.produto.id
+        JOIN Feedback f ON d.id = f.id
+        GROUP BY DATE_TRUNC('month', d.dataEnvio), p.nome
+    """)
+    public List<AvaliacaoMensalPacoteDto> findAvaliacaoMensalPacote();
 }
