@@ -17,6 +17,7 @@ import ClienteIndividualForm from './components/forms/ClienteIndividualForm.tsx'
 import ClienteOrganizacaoForm from './components/forms/ClienteOrganizacaoForm.tsx'
 import DevolutivaFeedbackForm from './components/forms/DevolutivaFeedbackForm.tsx'
 import DevolutivaTicketForm from './components/forms/DevolutivaTicketForm.tsx'
+import UsuarioForm from './components/forms/UsuarioForm.tsx'
 
 // Tema global dos componentes MUI
   const theme = createTheme({
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
       { path: 'operacoes/criar/cliente-organizacao', element: <ClienteOrganizacaoForm />},
       { path: 'operacoes/criar/devolutiva-feedback', element: <DevolutivaFeedbackForm />},
       { path: 'operacoes/criar/devolutiva-ticket', element: <DevolutivaTicketForm />},
+      { path: 'operacoes/criar/usuario', element: <UsuarioForm />},
       /*
       { path: 'home', element: <Home /> },
       { path: 'docs', element: <Documents /> },
