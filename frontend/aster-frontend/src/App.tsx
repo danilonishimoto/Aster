@@ -15,26 +15,35 @@ function App() {
 
   const userViews = [
     {
-      "user": "Estratégia",
+      "user": "estrategia",
       "d": "Desempenho de Vendas",
       "i": "Demografia"
     },
     {
-      "user": "Tech Lead",
-      "d": "Métricas de Downloads",
+      "user": "techlead",
+      "d": "Interação e Satisfação",
       "i": "Análise de Qualidade"
     },
     {
-      "user": "Finanças",
+      "user": "financas",
       "d": "Métricas de Receita",
-      "i": "Indicadores"
+      "i": "Fluxo de Caixa"
     },  
     {
-      "user": "Data Base Admin",
-      "d": ["Desempenho de Vendas", "Métricas de Downloads", "Métricas de Receita"],
-      "i": ["Demografia", "Análise de Qualidade", "Indicadores"]
+      "user": "admin",
+      "d": ["Desempenho de Vendas", "Interação e Satisfação", "Métricas de Receita"],
+      "i": ["Demografia", "Análise de Qualidade", "Fluxo de Caixa"],
     },
   ]
+
+  const eqView = {
+    "Desempenho de Vendas" : "estrategia",
+    "Interação e Satisfação" : "techlead",
+    "Métricas de Receita" : "financas",
+    "Demografia" : "estrategia",
+    "Análise de Qualidade" : "techlead",
+    "Fluxo de Caixa" : "financas"
+  }
 
   useEffect(() => {
     if (currentUser) {
@@ -45,6 +54,15 @@ function App() {
   }, [currentUser]);
   
   const currentView = userViews.find(view => view.user === currentUser);
+
+  if (window.innerWidth < 850) {
+    return (
+      <div className="w-full h-full min-h-screen min-w-screen flex flex-col items-center justify-center p-3 gap-4 bg-gradient-to-tr from-[var(--brand-blue)] via-[var(--brand-lavender)] to-[var(--brand-pink)]">
+        <h1 className="text-2xl font-bold text-center text-white">Por favor, use o pc ou junte-se ao coleguinha mais próximo ;)</h1>
+        <img src="/rat-spinning.gif" alt="rato girando" className="h-48" />
+      </div>
+    )
+  }
 
   return (
     isLoginPage ? ( 
@@ -59,8 +77,8 @@ function App() {
               
               <img src="/src/assets/logos/dashboard-black.svg" alt="Aster Logo" className="h-12" />
               <div className="w-full flex flex-col items-center justify-start gap-3">
-                <NavItem label="Início" onClick={() => {}} />
-                <NavItem label="Documentação" onClick={() => {}} />
+                <NavItem label="Início" onClick={() => {navigate('/home')}} />
+                <NavItem label="Documentação" onClick={() => {navigate('/docs')}} />
               </div>
 
               <div className="w-full flex flex-col items-center justify-start gap-6" >
@@ -74,15 +92,15 @@ function App() {
                       <>
                         {Array.isArray(currentView.d)
                           ? currentView.d.map((label, idx) => (
-                              <NavItem key={`d-${idx}`} label={label} onClick={() => {}} />
+                              <NavItem key={`d-${idx}`} label={label} onClick={() => {navigate(`/painel/d/${eqView[label]}`)}} />
                             ))
-                          : <NavItem label={currentView.d} onClick={() => {}} />}
+                          : <NavItem label={currentView.d} onClick={() => {navigate(`/painel/d/${currentUser}`)}} />}
 
                         {Array.isArray(currentView.i)
                           ? currentView.i.map((label, idx) => (
-                              <NavItem key={`i-${idx}`} label={label} onClick={() => {}} />
+                              <NavItem key={`i-${idx}`} label={label} onClick={() => {navigate(`/painel/i/${eqView[label]}`)}} />
                             ))
-                          : <NavItem label={currentView.i} onClick={() => {}} />}
+                          : <NavItem label={currentView.i} onClick={() => {navigate(`/painel/i/${currentUser}`)}} />}
                       </>
                     )}
                   </div>
@@ -108,7 +126,7 @@ function App() {
                       <img src="/src/assets/icons/sidemenu/suporte.svg" alt="Support Icon" className="h-6" />
                       <p> Suporte </p>
                     </div>
-                    <NavItem label="Devolutivas" onClick={() => {}} />
+                    <NavItem label="Devolutivas" onClick={() => {navigate('/suporte/devolutivas')}} />
                     <NavItem label="Responder ticket" onClick={() => {}} />
                   </div>
                 </section>

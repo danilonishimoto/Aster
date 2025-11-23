@@ -47,15 +47,14 @@ const router = createBrowserRouter([
       { path: 'home', element: <Home /> },
       { path: 'docs', element: <Documents /> },
 
-      { path: 'painel/d/:user', element: <Painel_1 /> },
-      { path: 'painel/i/:user', element: <Painel_2 /> },*/
-
       { path: 'operacoes/exibir/:entidade', element: <Exibir /> }, /*
       { path: 'operacoes/alterar/:entidade/:regId', element: <Alterar /> },
-      { path: 'operacoes/criar/:entidade/:regId?', element: <Criar /> }
+      { path: 'operacoes/criar/:entidade/:regId?', element: <Criar /> }*/
 
-      { path: 'suporte/devolutivas', element: <Devolutivas /> },
+      { path: 'suporte/devolutivas', element: <Devolutivas /> },/*
       { path: 'suporte/responder', element: <Responder /> },*/
+
+      ...painelRoutes,
     ]
   }
 ])
