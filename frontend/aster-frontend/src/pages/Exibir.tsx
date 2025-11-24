@@ -41,7 +41,6 @@ export default function Login() {
     }
 
     const alterarRegistro = () => {
-        console.log('a' + selectedRegister)
         navigate(`/operacoes/form/${entidade}`, {state: { selectedRegister }});
     }
 
