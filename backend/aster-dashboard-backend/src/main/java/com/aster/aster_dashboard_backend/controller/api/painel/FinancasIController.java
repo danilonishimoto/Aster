@@ -1,6 +1,7 @@
 package com.aster.aster_dashboard_backend.controller.api.painel;
 
 import com.aster.aster_dashboard_backend.dto.ReceitaTotalDto;
+import com.aster.aster_dashboard_backend.dto.TicketMedioClienteDto;
 import com.aster.aster_dashboard_backend.service.FluxoCaixaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,5 +24,10 @@ public class FinancasIController {
     @GetMapping("/receita-total-mensal")
     public List<ReceitaTotalDto> findReceitaTotal() {
         return fluxoCaixaService.findReceitaTotal();
+    }
+
+    @GetMapping("/ticket-medio-cliente")
+    public List<TicketMedioClienteDto> findTicketMedioCliente() {
+        return fluxoCaixaService.findTicketMedio();
     }
 }
