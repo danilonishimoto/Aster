@@ -2,11 +2,13 @@ package com.aster.aster_dashboard_backend.service;
 
 import com.aster.aster_dashboard_backend.dto.ClientesPaisDto;
 import com.aster.aster_dashboard_backend.dto.EntidadesDto;
+import com.aster.aster_dashboard_backend.dto.PorcentagemDto;
 import com.aster.aster_dashboard_backend.dto.QuantidadeDto;
 import com.aster.aster_dashboard_backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,20 +19,26 @@ public class DemografiaService {
     private ProdutoRepository produtoRepository;
     private ProdutoVersaoRepository produtoVersaoRepository;
     private ClienteRepository clienteRepository;
+    private ClienteOrganizacaoRepository clienteOrganizacaoRepository;
+    private ClienteIndividualRepository clienteIndividualRepository;
     private PacoteRepository pacoteRepository;
     private DevolutivaRepository devolutivaRepository;
     private UsuarioRepository usuarioRepository;
 
-    @Autowired
-    public DemografiaService(LicencaRepository licencaRepository, ProdutoRepository produtoRepository, ProdutoVersaoRepository produtoVersaoRepository, ClienteRepository clienteRepository, PacoteRepository pacoteRepository, DevolutivaRepository devolutivaRepository, UsuarioRepository usuarioRepository) {
+    public DemografiaService(LicencaRepository licencaRepository, ProdutoRepository produtoRepository, ProdutoVersaoRepository produtoVersaoRepository, ClienteRepository clienteRepository, ClienteOrganizacaoRepository clienteOrganizacaoRepository, ClienteIndividualRepository clienteIndividualRepository, PacoteRepository pacoteRepository, DevolutivaRepository devolutivaRepository, UsuarioRepository usuarioRepository) {
         this.licencaRepository = licencaRepository;
         this.produtoRepository = produtoRepository;
         this.produtoVersaoRepository = produtoVersaoRepository;
         this.clienteRepository = clienteRepository;
+        this.clienteOrganizacaoRepository = clienteOrganizacaoRepository;
+        this.clienteIndividualRepository = clienteIndividualRepository;
         this.pacoteRepository = pacoteRepository;
         this.devolutivaRepository = devolutivaRepository;
         this.usuarioRepository = usuarioRepository;
     }
+
+    @Autowired
+
 
     public EntidadesDto getQuantidadesEntidades() {
         EntidadesDto dto = new EntidadesDto();
@@ -125,5 +133,14 @@ public class DemografiaService {
 
     public List<ClientesPaisDto> findClientesPais() {
         return clienteRepository.countByRegiao();
+    }
+
+    public List<PorcentagemDto> findPorcentagemSetorAtuacao() {
+        List<Object[]> lista = clienteOrganizacaoRepository.findPorcentagemSetorAtuacao();
+        return lista.stream().map(o -> new PorcentagemDto(
+                (((Long) o[0]).intValue()),
+                ((BigDecimal) o[1]),
+                (o[2].toString())
+        )).toList();
     }
 }
