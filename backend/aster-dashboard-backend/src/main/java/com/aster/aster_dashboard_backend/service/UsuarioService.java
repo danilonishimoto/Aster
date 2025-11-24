@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +45,12 @@ public class UsuarioService {
     }
 
     public List<UsuariosMensaisProdutoDto> findUsuariosMensaisProduto() {
-        return repository.findUsuariosMensaisProduto();
+        List<Object[]> lista = repository.findUsuariosMensaisProduto();
+        return lista.stream().map(o -> new UsuariosMensaisProdutoDto(
+                (o[0].toString()),
+                ((Date) o[1]),
+                ((Long) o[2])
+        )).toList();
     }
 
     @Transactional

@@ -33,21 +33,21 @@ public interface PacoteRepository extends JpaRepository<Pacote, String> {
             p.nome AS pacote,
             SUM(
                 CASE
-                    WHEN l.tipo = 'Mensal' THEN\s
-                        CASE\s
+                    WHEN l.tipo = 'Mensal' THEN
+                        CASE
                             WHEN i.cliente_documento IS NOT NULL THEN p.preco_individual
                             ELSE p.preco_organizacional
                         END
         
-                    WHEN l.tipo = 'Anual' THEN\s
-                        CASE\s
+                    WHEN l.tipo = 'Anual' THEN
+                        CASE
                             WHEN i.cliente_documento IS NOT NULL THEN p.preco_individual * 12
                             ELSE p.preco_organizacional * 12
                         END
         
-                    WHEN l.tipo = 'Vitalícia'\s
+                    WHEN l.tipo = 'Vitalícia'
                          AND l.data_registro <= date_trunc('month', CURRENT_DATE) THEN
-                        CASE\s
+                        CASE
                             WHEN i.cliente_documento IS NOT NULL THEN p.preco_individual / 2
                             ELSE p.preco_organizacional / 2
                         END
@@ -76,7 +76,6 @@ public interface PacoteRepository extends JpaRepository<Pacote, String> {
                 p.preco_individual,
                 p.preco_organizacional,
         
-                -- gera os meses de contabilização da licença
                 generate_series(
                     date_trunc('month', l.data_registro),
                     CASE\s
@@ -97,20 +96,20 @@ public interface PacoteRepository extends JpaRepository<Pacote, String> {
             m.mes::date AS data,
             SUM(
                 CASE
-                    WHEN m.tipo = 'Mensal' THEN\s
-                        CASE\s
+                    WHEN m.tipo = 'Mensal' THEN
+                        CASE
                             WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual
                             ELSE m.preco_organizacional
                         END
         
-                    WHEN m.tipo = 'Anual' THEN\s
-                        CASE\s
+                    WHEN m.tipo = 'Anual' THEN
+                        CASE
                             WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual
                             ELSE m.preco_organizacional
                         END
         
-                    WHEN m.tipo = 'Vitalícia' THEN\s
-                        CASE\s
+                    WHEN m.tipo = 'Vitalícia' THEN
+                        CASE
                             WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual / 2
                             ELSE m.preco_organizacional / 2
                         END

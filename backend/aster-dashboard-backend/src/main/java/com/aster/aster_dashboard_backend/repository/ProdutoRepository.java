@@ -49,22 +49,22 @@ public interface ProdutoRepository extends JpaRepository<Produto, String> {
     public List<VendasMensaisProdutoDto> findVendasMensaisProduto();
 
     @Query(value = """
-        SELECT\s
+        SELECT
             pr.nome AS produto,
             SUM(
                 CASE\s
-                    WHEN l.tipo = 'Mensal' THEN\s
-                        CASE\s
+                    WHEN l.tipo = 'Mensal' THEN
+                        CASE
                             WHEN i.cliente_documento IS NOT NULL THEN p.preco_individual
                             ELSE p.preco_organizacional
                         END
-                    WHEN l.tipo = 'Anual' THEN\s
-                        CASE\s
+                    WHEN l.tipo = 'Anual' THEN
+                        CASE
                             WHEN i.cliente_documento IS NOT NULL THEN p.preco_individual * 12
                             ELSE p.preco_organizacional * 12
                         END
-                    WHEN l.tipo = 'Vitalícia' AND l.data_registro <= date_trunc('month', CURRENT_DATE) THEN\s
-                        CASE\s
+                    WHEN l.tipo = 'Vitalícia' AND l.data_registro <= date_trunc('month', CURRENT_DATE) THEN
+                        CASE
                             WHEN i.cliente_documento IS NOT NULL THEN p.preco_individual
                             ELSE p.preco_organizacional
                         END
@@ -117,21 +117,21 @@ public interface ProdutoRepository extends JpaRepository<Produto, String> {
             m.mes::date AS data,   -- retorno como DATE
         
             SUM(
-                CASE\s
-                    WHEN m.tipo = 'Mensal' THEN\s
-                        CASE\s
+                CASE
+                    WHEN m.tipo = 'Mensal' THEN
+                        CASE
                             WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual
                             ELSE m.preco_organizacional
                         END
         
-                    WHEN m.tipo = 'Anual' THEN\s
-                        CASE\s
+                    WHEN m.tipo = 'Anual' THEN
+                        CASE
                             WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual
                             ELSE m.preco_organizacional
                         END
         
-                    WHEN m.tipo = 'Vitalícia' THEN\s
-                        CASE\s
+                    WHEN m.tipo = 'Vitalícia' THEN
+                        CASE
                             WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual / 2
                             ELSE m.preco_organizacional / 2
                         END

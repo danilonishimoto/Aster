@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 @Getter
 @Setter
@@ -14,6 +14,6 @@ import java.time.LocalDate;
 public class UsuariosMensaisProdutoDto {
 
     private String produto;
-    private LocalDate data;
+    private Date data;
     private Long usuarios;
 }
