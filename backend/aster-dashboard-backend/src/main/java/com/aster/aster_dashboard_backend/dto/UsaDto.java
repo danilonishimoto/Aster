@@ -1,7 +1,5 @@
 package com.aster.aster_dashboard_backend.dto;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class UsaDto {
     
-    private List<String> usuariosChaveUso;
+    private String usuarioChaveUso;
     private String licencaId;
     private String clienteDocumento;
 
