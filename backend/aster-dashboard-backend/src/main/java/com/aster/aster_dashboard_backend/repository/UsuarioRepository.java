@@ -37,15 +37,26 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
                 u.cliente_documento,
                 l.produto_id,
         
-                -- gera os meses de contabilização da licença
                 generate_series(
                     date_trunc('month', l.data_registro),
-                    CASE\s
-                        WHEN l.tipo = 'Mensal' THEN date_trunc('month', l.data_registro)
-                        WHEN l.tipo = 'Anual' THEN date_trunc('month', l.data_registro) + interval '11 month'
-                        WHEN l.tipo = 'Vitalícia' THEN date_trunc('month', CURRENT_DATE)
-                        ELSE NULL
-                    END,
+                    LEAST(
+                        CASE
+                            WHEN l.tipo = 'Mensal'
+                                THEN date_trunc('month', l.data_registro)
+        
+                            WHEN l.tipo = 'Anual'
+                                THEN date_trunc('month', l.data_registro) + interval '11 month'
+        
+                            WHEN l.tipo = 'Vitalícia'
+                                THEN date_trunc('month', CURRENT_DATE)
+                                
+                            WHEN l.tipo = 'Demo'
+                                THEN date_trunc('month', l.data_registro)
+        
+                            ELSE NULL
+                        END,
+                        date_trunc('month', CURRENT_DATE)
+                    ),
                     interval '1 month'
                 ) AS mes
             FROM USA u

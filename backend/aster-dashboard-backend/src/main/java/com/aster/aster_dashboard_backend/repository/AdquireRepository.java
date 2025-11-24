@@ -25,46 +25,46 @@ public interface AdquireRepository extends JpaRepository<Adquire, AdquireId> {
         
                 generate_series(
                     date_trunc('month', l.data_registro),
-                    CASE
-                        WHEN l.tipo = 'Mensal' THEN date_trunc('month', l.data_registro)
-                        WHEN l.tipo = 'Anual' THEN date_trunc('month', l.data_registro) + interval '11 month'
-                        WHEN l.tipo = 'Vitalícia' THEN date_trunc('month', CURRENT_DATE)
-                        ELSE NULL
-                    END,
+                    LEAST(
+                        CASE
+                            WHEN l.tipo = 'Mensal'   THEN date_trunc('month', l.data_registro)
+                            WHEN l.tipo = 'Anual'    THEN date_trunc('month', l.data_registro) + interval '11 month'
+                            WHEN l.tipo = 'Vitalícia' THEN date_trunc('month', CURRENT_DATE)
+                            ELSE NULL
+                        END,
+                        date_trunc('month', CURRENT_DATE)
+                    ),
                     interval '1 month'
                 ) AS mes
             FROM LICENCA l
             JOIN ADQUIRE a ON a.licenca_id = l.id
             JOIN PACOTE p ON p.nome = a.pacote_nome
             WHERE l.ativa = TRUE
+              AND l.tipo <> 'Demo'
         )
         
         SELECT
             m.mes::date AS data,
-            ROUND(
-            SUM(
+            ROUND( SUM(
                 CASE
                     WHEN m.tipo = 'Mensal' THEN
-                        CASE\s
-                            WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual
-                            ELSE m.preco_organizacional
+                        CASE WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual
+                             ELSE m.preco_organizacional
                         END
         
                     WHEN m.tipo = 'Anual' THEN
-                        CASE
-                            WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual
-                            ELSE m.preco_organizacional
+                        CASE WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual
+                             ELSE m.preco_organizacional
                         END
         
                     WHEN m.tipo = 'Vitalícia' THEN
-                        CASE
-                            WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual / 2
-                            ELSE m.preco_organizacional / 2
+                        CASE WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual / 2
+                             ELSE m.preco_organizacional / 2
                         END
         
                     ELSE 0
                 END
-            ), 2) AS vendas
+            )::numeric, 2) AS receita
         FROM meses_licenca m
         LEFT JOIN INDIVIDUAL i ON i.cliente_documento = m.cliente_documento
         LEFT JOIN ORGANIZACAO o ON o.cliente_documento = m.cliente_documento

@@ -32,30 +32,39 @@ public interface PacoteRepository extends JpaRepository<Pacote, String> {
         SELECT
             p.nome AS pacote,
             ROUND(
-            SUM(
-                CASE
-                    WHEN l.tipo = 'Mensal' THEN
+                CAST(
+                    SUM(
                         CASE
-                            WHEN i.cliente_documento IS NOT NULL THEN p.preco_individual
-                            ELSE p.preco_organizacional
-                        END
+                            WHEN l.tipo = 'Mensal' THEN
+                                CASE
+                                    WHEN i.cliente_documento IS NOT NULL THEN p.preco_individual
+                                    ELSE p.preco_organizacional
+                                END
         
-                    WHEN l.tipo = 'Anual' THEN
-                        CASE
-                            WHEN i.cliente_documento IS NOT NULL THEN p.preco_individual * 12
-                            ELSE p.preco_organizacional * 12
-                        END
+                            WHEN l.tipo = 'Anual' THEN
+                                CASE
+                                    WHEN i.cliente_documento IS NOT NULL THEN p.preco_individual * 12
+                                    ELSE p.preco_organizacional * 12
+                                END
         
-                    WHEN l.tipo = 'Vitalícia'
-                         AND l.data_registro <= date_trunc('month', CURRENT_DATE) THEN
-                        CASE
-                            WHEN i.cliente_documento IS NOT NULL THEN p.preco_individual / 2
-                            ELSE p.preco_organizacional / 2
-                        END
+                            WHEN l.tipo = 'Vitalícia' THEN
+                                (
+                                    CASE
+                                        WHEN i.cliente_documento IS NOT NULL THEN p.preco_individual / 2
+                                        ELSE p.preco_organizacional / 2
+                                    END
+                                )
+                                *
+                                (
+                                    DATE_PART('year', age(date_trunc('month', CURRENT_DATE), date_trunc('month', l.data_registro))) * 12 +
+                                    DATE_PART('month', age(date_trunc('month', CURRENT_DATE), date_trunc('month', l.data_registro))) + 1
+                                )
         
-                    ELSE 0
-                END
-            ), 2) AS receita
+                            ELSE 0
+                        END
+                    ) AS numeric
+                ),
+            2) AS receita
         FROM PACOTE p
         JOIN ADQUIRE a ON a.pacote_nome = p.nome
         JOIN LICENCA l ON l.id = a.licenca_id
@@ -81,14 +90,20 @@ public interface PacoteRepository extends JpaRepository<Pacote, String> {
         
                 generate_series(
                     date_trunc('month', l.data_registro),
-                    CASE\s
-                        WHEN l.tipo = 'Mensal' THEN date_trunc('month', l.data_registro)
-                        WHEN l.tipo = 'Anual' THEN date_trunc('month', l.data_registro) + interval '11 month'
-                        WHEN l.tipo = 'Vitalícia' THEN date_trunc('month', CURRENT_DATE)
-                        ELSE NULL
-                    END,
+        
+                    LEAST(
+                        CASE
+                            WHEN l.tipo = 'Mensal' THEN date_trunc('month', l.data_registro)
+                            WHEN l.tipo = 'Anual' THEN date_trunc('month', l.data_registro) + interval '11 month'
+                            WHEN l.tipo = 'Vitalícia' THEN date_trunc('month', CURRENT_DATE)
+                            ELSE NULL
+                        END,
+                        date_trunc('month', CURRENT_DATE)  -- nunca ultrapassar o presente
+                    ),
+        
                     interval '1 month'
                 ) AS mes
+        
             FROM LICENCA l
             JOIN ADQUIRE a ON a.licenca_id = l.id
             JOIN PACOTE p ON p.nome = a.pacote_nome
@@ -98,29 +113,30 @@ public interface PacoteRepository extends JpaRepository<Pacote, String> {
             m.pacote_nome AS pacote,
             m.mes::date AS data,
             ROUND(
-            SUM(
-                CASE
-                    WHEN m.tipo = 'Mensal' THEN
-                        CASE
-                            WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual
-                            ELSE m.preco_organizacional
-                        END
+                SUM(
+                    CASE
+                        WHEN m.tipo = 'Mensal' THEN
+                            CASE
+                                WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual
+                                ELSE m.preco_organizacional
+                            END
         
-                    WHEN m.tipo = 'Anual' THEN
-                        CASE
-                            WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual
-                            ELSE m.preco_organizacional
-                        END
+                        WHEN m.tipo = 'Anual' THEN
+                            CASE
+                                WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual
+                                ELSE m.preco_organizacional
+                            END
         
-                    WHEN m.tipo = 'Vitalícia' THEN
-                        CASE
-                            WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual / 2
-                            ELSE m.preco_organizacional / 2
-                        END
+                        WHEN m.tipo = 'Vitalícia' THEN
+                            CASE
+                                WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual / 2
+                                ELSE m.preco_organizacional / 2
+                            END
         
-                    ELSE 0
-                END
-            ), 2) AS vendas
+                        ELSE 0
+                    END
+                ), 2
+            ) AS vendas
         FROM meses_licenca m
         LEFT JOIN INDIVIDUAL i ON i.cliente_documento = m.cliente_documento
         LEFT JOIN ORGANIZACAO o ON o.cliente_documento = m.cliente_documento
@@ -131,22 +147,60 @@ public interface PacoteRepository extends JpaRepository<Pacote, String> {
     public List<Object[]> findReceitaMensalPacote();
 
     @Query("""
-        SELECT new com.aster.aster_dashboard_backend.dto.MediaAvaliacoesPacoteDto(p.nome, CAST(AVG(f.avaliacao) AS bigdecimal))
+        SELECT new com.aster.aster_dashboard_backend.dto.MediaAvaliacoesPacoteDto(
+                    p.nome,
+                    CAST(AVG(f.avaliacao) AS bigdecimal)
+               )
         FROM Pacote p
         JOIN Contem c ON p.nome = c.id.pacoteNome
-        JOIN Devolutiva d ON c.id.produtoId = d.produto.id
-        JOIN Feedback f ON d.id = f.id
+        JOIN Produto pr ON pr.id = c.id.produtoId
+        JOIN Devolutiva d ON d.produto.id = pr.id
+        JOIN Feedback f ON f.id = d.id
+        WHERE pr.status = 'Comercializável'
         GROUP BY p.nome
+        HAVING COUNT(DISTINCT pr.id) = (
+            SELECT COUNT(DISTINCT c2.id.produtoId)
+            FROM Contem c2
+            JOIN Produto pr2 ON pr2.id = c2.id.produtoId
+            WHERE c2.id.pacoteNome = p.nome
+              AND pr2.status = 'Comercializável'
+        )
     """)
     public List<MediaAvaliacoesPacoteDto> findMediaAvaliacoesPacote();
 
-    @Query("""
-        SELECT new com.aster.aster_dashboard_backend.dto.AvaliacaoMensalPacoteDto(p.nome, DATE_TRUNC('month', d.dataEnvio), CAST(AVG(f.avaliacao) AS bigdecimal))
-        FROM Pacote p
-        JOIN Contem c ON p.nome = c.id.pacoteNome
-        JOIN Devolutiva d ON c.id.produtoId = d.produto.id
-        JOIN Feedback f ON d.id = f.id
-        GROUP BY DATE_TRUNC('month', d.dataEnvio), p.nome
-    """)
-    public List<AvaliacaoMensalPacoteDto> findAvaliacaoMensalPacote();
+    @Query(value = """
+        WITH total_produtos AS (
+            SELECT\s
+                c.pacote_nome,\s
+                COUNT(DISTINCT c.produto_id) AS total_produtos
+            FROM CONTEM c
+            JOIN PRODUTO pr ON pr.id = c.produto_id
+            WHERE pr.status = 'Comercializável'
+            GROUP BY c.pacote_nome
+        ),   
+        feedbacks_por_pacote_mes AS (
+            SELECT
+                p.nome AS pacote,
+                date_trunc('month', d.data_envio)::date AS mes,
+                COUNT(DISTINCT c.produto_id) AS produtos_avaliados_no_mes,
+                AVG(f.avaliacao) AS media_avaliacao
+            FROM PACOTE p
+            JOIN CONTEM c ON p.nome = c.pacote_nome
+            JOIN PRODUTO pr ON pr.id = c.produto_id
+            JOIN DEVOLUTIVA d ON d.produto_id = c.produto_id
+            JOIN FEEDBACK f ON f.devolutiva_id = d.id
+            WHERE pr.status = 'Comercializável'
+            GROUP BY p.nome, mes
+        )
+        
+        SELECT
+            fpm.pacote,
+            fpm.mes AS data,
+            ROUND(fpm.media_avaliacao::numeric, 2) AS avaliacao
+        FROM feedbacks_por_pacote_mes fpm
+        JOIN total_produtos tp ON tp.pacote_nome = fpm.pacote
+        WHERE fpm.produtos_avaliados_no_mes = tp.total_produtos
+        ORDER BY fpm.pacote, fpm.mes
+    """, nativeQuery=true)
+    public List<Object[]> findAvaliacaoMensalPacote();
 }

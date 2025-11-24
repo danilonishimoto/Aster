@@ -72,7 +72,12 @@ public class PacoteService {
     }
 
     public List<AvaliacaoMensalPacoteDto> findAvaliacaoMensalPacote() {
-        return repository.findAvaliacaoMensalPacote();
+        List<Object[]> lista = repository.findAvaliacaoMensalPacote();
+        return lista.stream().map(o -> new AvaliacaoMensalPacoteDto(
+                (o[0].toString()),
+                ((Date) o[1]),
+                ((BigDecimal) o[2])
+        )).toList();
     }
 
     @Transactional

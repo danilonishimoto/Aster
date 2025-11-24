@@ -33,9 +33,12 @@ public interface ProdutoRepository extends JpaRepository<Produto, String> {
     @Query("""
         SELECT new com.aster.aster_dashboard_backend.dto.TotalVendasProdutoDto(p.nome, COUNT(*))
         FROM Adquire a
-        LEFT JOIN Licenca l ON a.id.licencaId = l.id
-        LEFT JOIN Produto p ON l.produto.id = p.id
+        JOIN Licenca l ON a.id.licencaId = l.id
+        JOIN Contem c ON c.id.pacoteNome = a.id.pacoteNome
+        JOIN Produto p ON c.id.produtoId = p.id
+        WHERE l.ativa = true AND l.tipo <> 'Demo' AND p.status = 'Comercializável'
         GROUP BY p.nome
+        ORDER BY p.nome
     """)
     public List<TotalVendasProdutoDto> findTotalVendasProduto();
 
@@ -44,6 +47,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, String> {
         FROM Adquire a
         LEFT JOIN Licenca l ON a.id.licencaId = l.id
         LEFT JOIN Produto p ON l.produto.id = p.id
+        WHERE p.status = 'Comercializável' AND l.tipo <> 'Demo'
         GROUP BY DATE_TRUNC('month', l.dataRegistro), p.nome
     """)
     public List<VendasMensaisProdutoDto> findVendasMensaisProduto();
@@ -52,26 +56,51 @@ public interface ProdutoRepository extends JpaRepository<Produto, String> {
         SELECT
             pr.nome AS produto,
             ROUND(
-            SUM(
-                CASE
-                    WHEN l.tipo = 'Mensal' THEN
-                        CASE
-                            WHEN i.cliente_documento IS NOT NULL THEN p.preco_individual
-                            ELSE p.preco_organizacional
-                        END
-                    WHEN l.tipo = 'Anual' THEN
-                        CASE
-                            WHEN i.cliente_documento IS NOT NULL THEN p.preco_individual * 12
-                            ELSE p.preco_organizacional * 12
-                        END
-                    WHEN l.tipo = 'Vitalícia' AND l.data_registro <= date_trunc('month', CURRENT_DATE) THEN
-                        CASE
-                            WHEN i.cliente_documento IS NOT NULL THEN p.preco_individual
-                            ELSE p.preco_organizacional
-                        END
-                    ELSE 0
-                END
-            ), 2) AS receita
+                SUM(
+                    CASE
+                        WHEN l.tipo = 'Mensal' THEN
+                            CASE
+                                WHEN i.cliente_documento IS NOT NULL THEN p.preco_individual
+                                ELSE p.preco_organizacional
+                            END
+        
+                        WHEN l.tipo = 'Anual' THEN
+                            CASE
+                                WHEN i.cliente_documento IS NOT NULL THEN p.preco_individual * 12
+                                ELSE p.preco_organizacional * 12
+                            END
+        
+                        WHEN l.tipo = 'Vitalícia' THEN
+                            (
+                                CASE
+                                    WHEN i.cliente_documento IS NOT NULL THEN p.preco_individual / 2
+                                    ELSE p.preco_organizacional / 2
+                                END
+                            )
+                            *
+                            (
+                                DATE_PART(
+                                    'year',
+                                    age(
+                                        date_trunc('month', CURRENT_DATE),
+                                        date_trunc('month', l.data_registro)
+                                    )
+                                ) * 12
+                                +
+                                DATE_PART(
+                                    'month',
+                                    age(
+                                        date_trunc('month', CURRENT_DATE),
+                                        date_trunc('month', l.data_registro)
+                                    )
+                                )
+                                + 1
+                            )
+        
+                        ELSE 0
+                    END
+                )::numeric
+            , 2) AS receita
         FROM PRODUTO pr
         JOIN CONTEM c ON c.produto_id = pr.id
         JOIN PACOTE p ON p.nome = c.pacote_nome
@@ -79,7 +108,15 @@ public interface ProdutoRepository extends JpaRepository<Produto, String> {
         JOIN LICENCA l ON l.id = a.licenca_id
         LEFT JOIN INDIVIDUAL i ON i.cliente_documento = a.cliente_documento
         LEFT JOIN ORGANIZACAO o ON o.cliente_documento = a.cliente_documento
-        WHERE pr.status = 'Comercializável' AND l.ativa = TRUE
+        WHERE
+            pr.status = 'Comercializável'
+            AND l.ativa = TRUE
+            AND p.nome IN (
+                SELECT pacote_nome
+                FROM CONTEM
+                GROUP BY pacote_nome
+                HAVING COUNT(produto_id) = 1
+            )
         GROUP BY pr.nome
         ORDER BY pr.nome
     """, nativeQuery = true)
@@ -100,12 +137,15 @@ public interface ProdutoRepository extends JpaRepository<Produto, String> {
         
                 generate_series(
                     date_trunc('month', l.data_registro),
-                    CASE
-                        WHEN l.tipo = 'Mensal' THEN date_trunc('month', l.data_registro)
-                        WHEN l.tipo = 'Anual' THEN date_trunc('month', l.data_registro) + interval '11 month'
-                        WHEN l.tipo = 'Vitalícia' THEN date_trunc('month', CURRENT_DATE)
-                        ELSE NULL
-                    END,
+                    LEAST(
+                        CASE
+                            WHEN l.tipo = 'Mensal' THEN date_trunc('month', l.data_registro)
+                            WHEN l.tipo = 'Anual' THEN date_trunc('month', l.data_registro) + interval '11 month'
+                            WHEN l.tipo = 'Vitalícia' THEN date_trunc('month', CURRENT_DATE)
+                            ELSE NULL
+                        END,
+                        date_trunc('month', CURRENT_DATE)
+                    ),
                     interval '1 month'
                 ) AS mes
             FROM LICENCA l
@@ -116,31 +156,32 @@ public interface ProdutoRepository extends JpaRepository<Produto, String> {
         
         SELECT
             pr.nome AS produto,
-            m.mes::date AS data,   -- retorno como DATE
+            m.mes::date AS data,
             ROUND(
-            SUM(
-                CASE
-                    WHEN m.tipo = 'Mensal' THEN
-                        CASE
-                            WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual
-                            ELSE m.preco_organizacional
-                        END
+                SUM(
+                    CASE
+                        WHEN m.tipo = 'Mensal' THEN
+                            CASE
+                                WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual
+                                ELSE m.preco_organizacional
+                            END
         
-                    WHEN m.tipo = 'Anual' THEN
-                        CASE
-                            WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual
-                            ELSE m.preco_organizacional
-                        END
+                        WHEN m.tipo = 'Anual' THEN
+                            CASE
+                                WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual
+                                ELSE m.preco_organizacional
+                            END
         
-                    WHEN m.tipo = 'Vitalícia' THEN
-                        CASE
-                            WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual / 2
-                            ELSE m.preco_organizacional / 2
-                        END
+                        WHEN m.tipo = 'Vitalícia' THEN
+                            CASE
+                                WHEN i.cliente_documento IS NOT NULL THEN m.preco_individual / 2
+                                ELSE m.preco_organizacional / 2
+                            END
         
-                    ELSE 0
-                END
-            ), 2) AS vendas
+                        ELSE 0
+                    END
+                ), 2
+            ) AS vendas
         
         FROM meses_licenca m
         JOIN PRODUTO pr ON pr.id = m.produto_id
