@@ -63,4 +63,18 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
         ORDER BY pr.nome, m.mes
     """, nativeQuery = true)
     public List<Object[]> findUsuariosMensaisProduto();
+
+    @Query(value= """
+        SELECT
+            ROW_NUMBER() OVER (ORDER BY pr.nome) - 1 AS id,
+            COUNT(DISTINCT u.usuario_chave_uso) AS value,
+            pr.nome AS label
+        FROM PRODUTO pr
+        JOIN LICENCA l ON l.produto_id = pr.id
+        JOIN USA u ON u.licenca_id = l.id
+        WHERE pr.status = 'Comercializável' AND l.ativa = TRUE
+        GROUP BY pr.nome
+        ORDER BY pr.nome
+    """, nativeQuery=true)
+    public List<Object[]> findUsuariosTotalProduto();
 }
