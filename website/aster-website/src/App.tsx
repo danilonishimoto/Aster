@@ -25,7 +25,7 @@ function App() {
 
           <div className="w-full flex flex-col items-center justify-center gap-4">
             <p>Clique aqui:</p>
-            <img src="/assets/icons/app.svg" alt="Aster app icon" className="w-12 h-12"/>
+            <img src="/assets/icons/app.svg" alt="Aster app icon" className="w-12 h-12 hover:cursor-pointer" onClick={() => window.open('https://github.com/guilhermeavarella/Aster')} />
           </div>
         </div>
         <p className="text-sm text-[var(--content-inverse)]">Para informações sobre os integrantes da equipe de desenvolvimento, acesse a aba “Contato” :)</p>
