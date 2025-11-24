@@ -10,7 +10,7 @@ function App() {
       <section className="w-full bg-[var(--background-dark)] flex flex-col items-center justify-center py-9 px-80 gap-40">
         <div className="w-full flex flex-row items-start justify-between text-sm text-[var(--content-inverse)] py-16" >
           <div className="w-full flex flex-row items-start justify-center gap-20">
-            <img src="/logos/all-white.svg" alt="Aster Logo" className="h-16"/>
+            <img src="/logos/all-white.svg" alt="Aster Logo" className="h-16 hover:cursor-pointer"/>
             <div className="flex flex-col items-start justify-center mt-6 gap-4">
               <p className="font-semibold hover:cursor-pointer" onClick={() => window.location.href = '/'}>Início</p>
               <p className="font-semibold hover:cursor-pointer" onClick={() => navigate('produtos')}>Produtos e Pacotes</p>
