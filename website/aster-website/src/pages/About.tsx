@@ -30,7 +30,7 @@ export default function About() {
                 }}>
                 </Box>
             </Stack>
-            <Stack sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '100px' }} spacing={4}>
+            <Stack sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '100px', backgroundColor: '#F3F0F9' }} spacing={4}>
                 <Box>
                     <Typography sx={{ fontFamily: 'Segoe UI', fontSize: '30px', fontWeight: '600' }}>
                         Decolando suas ideias aos astros.

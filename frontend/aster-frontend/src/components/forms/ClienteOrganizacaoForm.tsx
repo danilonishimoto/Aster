@@ -90,10 +90,9 @@ export default function ClienteOrganizacaoForm({ clienteOrganizacao }: clienteOr
 
     // Lista portes
     const portes = [
-        'Pequena',
-        'Média',
+        'Pequeno',
+        'Médio',
         'Grande',
-        'Imensa',
     ]
 
     // Handler criar/editar
