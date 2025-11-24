@@ -1,14 +1,18 @@
 import { Outlet } from "react-router-dom"
+import NavTop from "./components/NavTop"
+import { useState } from "react"
 
 function App() {
 
+  const [ navColor, setNavColor ] = useState('transparent')
+
+  
+
   return (
     <div>
-{/* <div className="w-full h-full min-h-screen min-w-screen flex flex-row items-start justify-start">
-        <h1>Aster Website</h1>
-      </div> */}
-      <main className="w-full h-full min-h-screen min-w-screen">
-        <Outlet />
+      <NavTop backgroundColor={navColor} />
+      <main className="w-full h-full min-h-screen min-w-screen" >
+        <Outlet context={{setNavColor}}/>
       </main>
     </div>
   )

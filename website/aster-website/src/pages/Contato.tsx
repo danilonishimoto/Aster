@@ -1,5 +1,7 @@
 import { Box, IconButton, Stack, Typography } from "@mui/material";
 import LikedinIcon from '../assets/icons/linkedin_icon.svg'
+import { useOutletContext } from "react-router-dom";
+import { useEffect } from "react";
 
 type ProfileType = {
     foto: string,
@@ -48,11 +50,12 @@ const profiles: ProfileType[] = [
     }
 ]
 
-
-
-
+type OutletContextType = {
+  setNavColor: (color: string) => void;
+};
 
 function Profile({ profile }: { profile: ProfileType }) {
+  
     return (
         <Stack direction={"row"} sx={{ display: 'flex', flexDirection: 'row', width: '558px', maxWidth: '600px', height: '130px' }} spacing={2}>
             {profile.foto ? (<Box sx={{
@@ -113,6 +116,13 @@ function Profile({ profile }: { profile: ProfileType }) {
 }
 
 export default function Contato() {
+
+    const { setNavColor } = useOutletContext<OutletContextType>();
+    
+    useEffect(() => {
+    setNavColor('transparent');
+  }, [setNavColor]);
+
     return (
         <Box sx={{ width: '100%', height: '100%' }}>
             <Box sx={{ height: '436px', backgroundImage: 'linear-gradient(257deg, #CB9AD2 0%, #BBB3D9 50%, #ABC2E2 100%)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

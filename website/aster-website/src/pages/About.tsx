@@ -2,10 +2,21 @@ import { Box, Container, Stack, Typography } from '@mui/material'
 import AsterHero from '../assets/backgrounds/aster-hero-about.png'
 import AsterIsco from '../assets/icons/aster_asterisco.png'
 import PlainButton from '../components/mui/PlainButton'
-import { useNavigate } from 'react-router'
+import { useNavigate, useOutletContext } from 'react-router'
+import { useEffect } from 'react'
+
+type OutletContextType = {
+  setNavColor: (color: string) => void;
+};
 
 export default function About() {
     const navigate = useNavigate()
+
+    const { setNavColor } = useOutletContext<OutletContextType>();
+    
+    useEffect(() => {
+    setNavColor('white');
+  }, [setNavColor]);
 
     return (
         <Box>
