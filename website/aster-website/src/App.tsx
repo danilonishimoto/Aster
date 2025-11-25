@@ -1,10 +1,22 @@
+import { Outlet } from "react-router-dom"
+import NavTop from "./components/NavTop"
+import NavTopWhite from './components/NavTopWhite'
+import { useState } from "react"
 import { useNavigate } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
 
 function App() {
   const navigate = useNavigate()
 
+  const [ navColor, setNavColor ] = useState('transparent')
+
   return (
+    <div>
+      {navColor === "white" ? (<NavTopWhite />) : (<NavTop />)}
+      <main className="w-full h-full min-h-screen min-w-screen" >
+        <Outlet context={{setNavColor}}/>
+      </main>
+    </div>
     <main className="w-full h-full min-h-screen min-w-screen flex flex-col items-center justify-start">
       <Outlet />
       <section className="w-full bg-[var(--background-dark)] flex flex-col items-center justify-center py-9 px-80 gap-40">

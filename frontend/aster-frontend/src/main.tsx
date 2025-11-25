@@ -27,7 +27,6 @@ import UsuarioForm from './components/forms/UsuarioForm.tsx'
 // Criar: Para usar a função de Criar basta acessar o element de formulário da entidade desejada
 // Editar: Para usar a função de Editar deve-se passar um registro da entidade para o element
 
-
 // Tema global dos componentes MUI
   const theme = createTheme({
     typography: {
