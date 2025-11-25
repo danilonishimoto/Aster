@@ -10,12 +10,15 @@ import { Stack, Card, CardHeader, Typography, MenuItem, Box, Checkbox, FormContr
 import { ListProduto } from '../../actions/Produto.ts'
 import StyledInputText from '../mui/InputText.tsx'
 import StyledInputSelect from '../mui/InputSelect.tsx'
-import Button from '../Button.tsx'
 import { useEffect, useState } from 'react'
 import Glass from '../Glass.tsx'
 import ProfileMenu from '../ProfileMenu.tsx'
 import type { ProdutoFormSchemaType } from './ProdutoForm.tsx'
 import SubmitDialog from '../mui/SubmitDialog.tsx'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import dayjs from 'dayjs'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
 const LicencaFormSchema = z.object({
     id: z.string().min(1, 'Campo obrigatório').max(20, 'Limite máximo de caracteres'),
@@ -143,21 +146,48 @@ export default function LicencaForm({ licenca }: licencaProps) {
                                 )}
                             />
                             <Controller
-                                name="dataRegistro"
+                                name='dataRegistro'
                                 control={control}
                                 render={({ field }) => (
-                                    <StyledInputText
-                                        error={!!errors.dataRegistro}
-                                        helperText={errors.dataRegistro?.message}
-                                        label="Data de Lançamento"
-                                        placeholder="Data de lançamento"
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        onBlur={field.onBlur}
-                                        inputRef={field.ref}
-                                        slotProps={{ inputLabel: { shrink: true } }}
-                                        sx={{ width: '48%' }}
-                                    />
+                                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='pt-br'>
+                                        <Box sx={{ width: '48%' }}>
+                                            <DatePicker
+                                                label="Data de envio"
+                                                value={field.value ? dayjs(field.value) : null}
+                                                onChange={(newValue) => {
+                                                    field.onChange(newValue ? newValue.format("YYYY-MM-DD") : "");
+                                                }}
+                                                format='DD/MM/YYYY'
+                                                slotProps={{
+                                                    textField: {
+                                                        InputLabelProps: {
+                                                            shrink: true
+                                                        },
+                                                        fullWidth: true,
+                                                        sx: {
+                                                            "& .MuiInputLabel-root": {
+                                                                fontWeight: "bold",
+                                                                fontSize: '20px',
+                                                                padding: '0 6px 0 0px',
+                                                                backgroundColor: "#fff",
+                                                                color: 'var(--content-primary)'
+                                                            },
+                                                            "& .MuiPickersInputBase-root": {
+                                                                height: 50,
+                                                                minHeight: 50,
+                                                                display: "flex",
+                                                                alignItems: "center",
+                                                            },
+
+                                                            "& .MuiOutlinedInput-input": {
+                                                                padding: "0 14px",
+                                                            },
+                                                        }
+                                                    }
+                                                }}
+                                            />
+                                        </Box>
+                                    </LocalizationProvider>
                                 )}
                             />
                         </Stack>
