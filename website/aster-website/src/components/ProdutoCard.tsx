@@ -13,7 +13,7 @@ export default function PacoteCard () { {/* TORNAR DINAMICO */}
             <div className="w-full flex flex-row justify-between">
                 <Button variant="black" label="Compre agora" px={6} />
                 <div className="flex items-start justify-start mx-3">
-                    <Button variant="clear-black" label="Compre agora" />
+                    <Button variant="clear-black" label="Solicitar demo" />
                 </div>
             </div>
         </div>
