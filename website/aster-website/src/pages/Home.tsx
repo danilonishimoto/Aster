@@ -1,9 +1,31 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import PacoteCard from "../components/PacoteCard";
+import api from "../services/api"
 
 export default function Home() {
     const navigate = useNavigate();
+    const [ produtos, setProdutos ] =  useState();
+    const [ pacotes, setPacotes ] =  useState();
+
+    const fetchProdutos = async () => {
+        try {
+            const response = await api.get('/home/produtos-mais-populares');
+            setProdutos(response.data);
+        } catch (error) {
+            console.error('Erro ao buscar produtos:', error);
+        }
+    }
+
+    const fetchPacotes = async () => {
+        try {
+            const response = await api.get('/home/pacotes-mais-populares');
+            setPacotes(response.data);
+        } catch (error) {
+            console.error('Erro ao buscar pacotes:', error);
+        }
+    }
     
     // Mock temporario para testes
     const mockProdutos = [
@@ -78,7 +100,12 @@ export default function Home() {
             "individual": 199.90,
             "organizacional": 299.90
         }
-    ];  
+    ];
+
+    useEffect(() => {
+        fetchProdutos();
+        fetchPacotes();
+    }, [produtos, pacotes]);
 
     return (
         <section className="w-full flex flex-col items-center justify-start">
