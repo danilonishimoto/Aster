@@ -53,6 +53,33 @@ export default function Home() {
         }
     ];
 
+    const mockPacotes = [
+        {
+            "name": "Design",
+            "produtos": ["Nova", "Lumen", "Vecto"],
+            "individual": 99.90,
+            "organizacional": 199.90
+        },
+        {
+            "name": "Modelagem 3D",
+            "produtos": ["Nova", "Lumen", "Vecto"],
+            "individual": 149.90,
+            "organizacional": 249.90
+        },
+        {
+            "name": "Edição de Vídeo",
+            "produtos": ["Nova", "Lumen", "Vecto"],
+            "individual": 129.90,
+            "organizacional": 229.90
+        },
+        {
+            "name": "Pacote Completo",
+            "produtos": ["Nova", "Lumen", "Vecto"],
+            "individual": 199.90,
+            "organizacional": 299.90
+        }
+    ];  
+
     return (
         <section className="w-full flex flex-col items-center justify-start">
             <section className="w-full bg-gradient-to-br from-[#B273D5] via-[#9779CD] to-[#807AD0] flex flex-col items-center justify-start px-36">
@@ -157,10 +184,15 @@ export default function Home() {
 
                 {/* FAZER DINAMICO */}
                 <div className="w-full flex flex-row items-center justify-center gap-9">
-                    <PacoteCard />
-                    <PacoteCard />
-                    <PacoteCard />
-                    <PacoteCard />
+                    {mockPacotes.map((pacote) => (
+                        <PacoteCard 
+                            key={pacote.name}
+                            name={pacote.name} 
+                            produtos={pacote.produtos} 
+                            individual={pacote.individual} 
+                            organizacional={pacote.organizacional} 
+                        />
+                    ))}
                 </div>
                
                 
