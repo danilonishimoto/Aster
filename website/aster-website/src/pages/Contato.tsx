@@ -20,8 +20,8 @@ const profiles: ProfileType[] = [
         nome: 'Danilo Yuzo Nishimoto'
     },
     { 
-        foto: '',
-        linkedin: '',
+        foto: 'profile_aika.PNG',
+        linkedin: 'www.linkedin.com/in/guilherme-avarella',
         atividades: ['Organização e Gestão do projeto', "Desenvolvimento do Front End e Back End", "Criação do minimundo e dos protótipos"],
         vulgo: '"Purplish"',
         nome: 'Guilherme Aika Alves Varella',
