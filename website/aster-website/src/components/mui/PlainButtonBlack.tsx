@@ -13,13 +13,13 @@ const StyledButton = styled(Button)(() => ({
     width: '200px',
     height: '40px',
     borderRadius: '200px',
-    backgroundColor: 'black',
+    backgroundColor: 'var(--content-primary)',
     boxShadow: 'none',
 }));
 
 export default function PlainButton(props: ButtonProps) {
     return (
-        <StyledButton variant="contained" {...props} sx={{ color: 'white', fontWeight: 600, textTransform: 'initial', fontSize: '16px', fontFamily: 'Segoe UI', px: '15px' }}>
+        <StyledButton variant="contained" {...props} sx={{ color: 'var(--content-inverse)', fontWeight: 600, textTransform: 'initial', fontSize: '16px', fontFamily: 'Segoe UI', px: '15px' }}>
         </StyledButton>
     );
 }

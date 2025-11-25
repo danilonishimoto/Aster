@@ -19,7 +19,7 @@ const StyledButton = styled(Button)(() => ({
 
 export default function PlainButton(props: ButtonProps) {
     return (
-        <StyledButton variant="contained" {...props} sx={{ color: 'black', fontWeight: 600, textTransform: 'initial', fontSize: '16px', fontFamily: 'Segoe UI', px: '15px' }}>
+        <StyledButton variant="contained" {...props} sx={{ color: 'var(--content-primary)', fontWeight: 600, textTransform: 'initial', fontSize: '16px', fontFamily: 'Segoe UI', px: '15px' }}>
         </StyledButton>
     );
 }

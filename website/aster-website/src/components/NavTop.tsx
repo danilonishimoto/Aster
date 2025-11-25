@@ -16,9 +16,9 @@ export default function NavTop() {
                 backgroundRepeat: 'no-repeat'
             }}/>
             <Stack direction={'row'} sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}} spacing={4}>
-                <Link underline="none" sx={{color: 'white'}} component='button' onClick={() => {navigate('/galeria')}}>Produtos</Link>
-                <Link underline="none" sx={{color: 'white'}} component='button' onClick={() => {navigate('/sobre')}}>Sobre nós</Link>
-                <Link underline="none" sx={{color: 'white'}} component='button' onClick={() => {navigate('/contato')}}>Contato</Link>
+                <Link underline="none" sx={{color: 'white', fontWeight: 600}} component='button' onClick={() => {navigate('/produtos')}}>Produtos</Link>
+                <Link underline="none" sx={{color: 'white', fontWeight: 600}} component='button' onClick={() => {navigate('/sobre')}}>Sobre nós</Link>
+                <Link underline="none" sx={{color: 'white', fontWeight: 600}} component='button' onClick={() => {navigate('/contato')}}>Contato</Link>
                 <PlainButton>
                     Comece a criar
                 </PlainButton>

@@ -7,7 +7,7 @@ export default function NavTop() {
     const navigate = useNavigate()
 
     return (
-        <Stack sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between',alignItems: 'center', padding: '8px 128px', width: '100%', backgroundColor: 'white', position: 'absolute', zIndex: 10}}>
+        <Stack sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between',alignItems: 'center', padding: '8px 128px', width: '100%', backgroundColor: 'var(--background-light)', position: 'absolute', zIndex: 10}}>
             <Box sx={{
                 width: '120px',
                 height: '50px',
@@ -16,9 +16,9 @@ export default function NavTop() {
                 backgroundRepeat: 'no-repeat'
             }}/>
             <Stack direction={'row'} sx={{display: 'flex', flexDirection: 'row', alignItems: 'center'}} spacing={4}>
-                <Link underline="none" sx={{color: 'black'}} component='button' onClick={() => {navigate('/galeria')}}>Produtos</Link>
-                <Link underline="none" sx={{color: 'black'}} component='button' onClick={() => {navigate('/sobre')}}>Sobre nós</Link>
-                <Link underline="none" sx={{color: 'black'}} component='button' onClick={() => {navigate('/contato')}}>Contato</Link>
+                <Link underline="none" sx={{color: 'var(--content-primary)', fontWeight: 600}} component='button' onClick={() => {navigate('/produtos')}}>Produtos</Link>
+                <Link underline="none" sx={{color: 'var(--content-primary)', fontWeight: 600}} component='button' onClick={() => {navigate('/sobre')}}>Sobre nós</Link>
+                <Link underline="none" sx={{color: 'var(--content-primary)', fontWeight: 600}} component='button' onClick={() => {navigate('/contato')}}>Contato</Link>
                 <PlainButtonBlack>
                     Comece a criar
                 </PlainButtonBlack>
