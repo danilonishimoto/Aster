@@ -11,6 +11,7 @@ import { painelRoutes } from './pages/Painel.tsx'
 import Exibir from './pages/Exibir.tsx'
 import { createTheme } from '@mui/material'
 import { ThemeProvider } from '@mui/material'
+import Responder from './pages/Responder.tsx'
 
 // Teste das telas de formulário
 import ProdutoForm from './components/forms/ProdutoForm.tsx'
@@ -55,12 +56,10 @@ const router = createBrowserRouter([
       { path: 'home', element: <Home /> },
       { path: 'docs', element: <Documentacao /> },
 
-      { path: 'operacoes/exibir/:entidade', element: <Exibir /> }, /*
-      { path: 'operacoes/alterar/:entidade/:regId', element: <Alterar /> },
-      { path: 'operacoes/criar/:entidade/:regId?', element: <Criar /> }*/
+      { path: 'operacoes/exibir/:entidade', element: <Exibir /> },
 
-      { path: 'suporte/devolutivas', element: <Devolutivas /> },/*
-      { path: 'suporte/responder', element: <Responder /> },*/
+      { path: 'suporte/devolutivas', element: <Devolutivas /> },
+      { path: 'suporte/responder', element: <Responder /> },
 
       ...painelRoutes,
     ]

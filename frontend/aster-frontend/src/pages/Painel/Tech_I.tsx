@@ -34,7 +34,6 @@ export default function Desempenho() {
         return response.json();
     };
 
-    /*
     const fetchPage = async (page_number: number) => {
         if (page_number < 0 || (page && page_number > page.lastPage)) {
             console.log("Invalid page number:", page_number);
@@ -43,33 +42,15 @@ export default function Desempenho() {
         
         await fetch(`/src/assets/files/entity-templates/usuario.json`)
             .then((res) => res.json())
-            .then((data) => setTemplate(data));
-        
+            .then((data) => {setTemplate(data)});
+
         try {
             const response = await api.get(`/operacoes/usuario?page=${page_number}`);
             setPage(response.data);
         } catch (error) {
             console.error(`Error fetching page ${page_number}:`, error);
         }
-    };*/
-
-    // MOCK: 
-    const fetchPage = async (page_number: number) => {
-        if (page_number < 0 || (page && page_number > page.lastPage)) {
-            console.log("Invalid page number:", page_number);
-            return;
-        }
-        setTemplate(await fetchJson(`/src/assets/files/entity-templates/usuario.json`));
-        
-        await fetch(`/mocks/produto_page${page_number}.json`)
-            .then((res) => res.json())
-            .then((data) => setPage(data));
-
-        console.log("Fetch:", page_number);
-
-        console.log("Template:", template);
     };
-
 
     function recortarArray(dados: Record<string, any[]>, chave: string) { 
         return dados[chave] ?? [];
@@ -293,7 +274,7 @@ export default function Desempenho() {
                             </Glass>
         
                             <div className="w-full flex flex-row items-start justify-between">
-                                <p className="font-semibold">{page?.totalRegistros} Registros encontrados</p>
+                                <p className="font-semibold">{page?.totalEntries} Registros encontrados</p>
                                 <div className="flex flex-row gap-2">
                                     <img src="/src/assets/icons/chevron-left.svg" alt="left arrow" className="w-9 h-9 cursor-pointer" onClick={() => {fetchPage(page.pageNumber)}}/>
                                     <BallButton variant="white" label="1" onClick={() => {fetchPage(0)}} />

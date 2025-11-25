@@ -127,7 +127,7 @@ function App() {
                       <p> Suporte </p>
                     </div>
                     <NavItem label="Devolutivas" onClick={() => {navigate('/suporte/devolutivas')}} />
-                    <NavItem label="Responder ticket" onClick={() => {}} />
+                    <NavItem label="Responder ticket" onClick={() => {navigate('/suporte/responder')}} />
                   </div>
                 </section>
               </div>

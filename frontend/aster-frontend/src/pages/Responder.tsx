@@ -9,7 +9,7 @@ import { Modal } from "../components/Modal"
 
 
 export default function Login() {
-    let entidade = "devolutiva-feedback"
+    let entidade = "devolutiva-ticket"
     
     const [ template, setTemplate ] = useState(null)
     const [ page, setPage ] = useState()

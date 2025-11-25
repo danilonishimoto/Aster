@@ -1,8 +1,7 @@
 {
     "nome": "Usuário",
     "atributos": {
-        "nomeCliente": "Cliente",
         "chaveUso": "Chave de Usuário"
     },
-    "displayed": [ "nomeCliente", "chaveUso" ]
+    "displayed": [ "chaveUso" ]
 }
