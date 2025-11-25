@@ -1,16 +1,10 @@
 package com.aster.aster_dashboard_backend.entity;
 
-import java.util.List;
-
-import org.hibernate.annotations.ManyToAny;
-
 import com.aster.aster_dashboard_backend.entity.id.ContemId;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;

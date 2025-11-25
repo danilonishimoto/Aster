@@ -8,7 +8,6 @@ import com.aster.aster_dashboard_backend.entity.Produto;
 import com.aster.aster_dashboard_backend.repository.ClienteIndividualRepository;
 import com.aster.aster_dashboard_backend.repository.ClienteOrganizacaoRepository;
 import com.aster.aster_dashboard_backend.repository.ProdutoRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,6 @@
 package com.aster.aster_dashboard_backend.converter;
 
 import com.aster.aster_dashboard_backend.dto.ContemDto;
-import com.aster.aster_dashboard_backend.dto.PacoteDto;
 import com.aster.aster_dashboard_backend.entity.Contem;
 import com.aster.aster_dashboard_backend.entity.Pacote;
 import com.aster.aster_dashboard_backend.entity.Produto;
@@ -9,8 +8,6 @@ import com.aster.aster_dashboard_backend.entity.id.ContemId;
 import com.aster.aster_dashboard_backend.repository.PacoteRepository;
 import com.aster.aster_dashboard_backend.repository.ProdutoRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;

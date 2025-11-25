@@ -1,6 +1,5 @@
 package com.aster.aster_dashboard_backend.repository;
 
-import com.aster.aster_dashboard_backend.dto.ReceitaTotalDto;
 import com.aster.aster_dashboard_backend.entity.Adquire;
 import com.aster.aster_dashboard_backend.entity.id.AdquireId;
 import org.springframework.data.jpa.repository.JpaRepository;

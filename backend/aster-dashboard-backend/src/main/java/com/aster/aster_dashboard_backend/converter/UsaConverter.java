@@ -5,16 +5,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.aster.aster_dashboard_backend.dto.ContemDto;
 import com.aster.aster_dashboard_backend.dto.UsaDto;
 import com.aster.aster_dashboard_backend.entity.Cliente;
-import com.aster.aster_dashboard_backend.entity.Contem;
 import com.aster.aster_dashboard_backend.entity.Licenca;
-import com.aster.aster_dashboard_backend.entity.Pacote;
-import com.aster.aster_dashboard_backend.entity.Produto;
 import com.aster.aster_dashboard_backend.entity.Usa;
 import com.aster.aster_dashboard_backend.entity.Usuario;
-import com.aster.aster_dashboard_backend.entity.id.ContemId;
 import com.aster.aster_dashboard_backend.entity.id.UsaId;
 import com.aster.aster_dashboard_backend.repository.ClienteRepository;
 import com.aster.aster_dashboard_backend.repository.LicencaRepository;

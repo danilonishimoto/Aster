@@ -1,7 +1,6 @@
 package com.aster.aster_dashboard_backend.repository;
 
 import com.aster.aster_dashboard_backend.dto.UsuarioComClienteDto;
-import com.aster.aster_dashboard_backend.dto.UsuariosMensaisProdutoDto;
 import com.aster.aster_dashboard_backend.dto.UsuariosProdutoDto;
 import com.aster.aster_dashboard_backend.entity.Usuario;
 import org.springframework.data.domain.Page;

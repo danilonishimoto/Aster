@@ -3,8 +3,6 @@ package com.aster.aster_dashboard_backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
