@@ -11,6 +11,7 @@ Confira: <https://www.nodejs.org>
 
 
 #### Para rodar a aplicação execute:  
-``npm run dev``
+``npm run``
 
-> Acesse em ``http://localhost:5000``
+> Acesse em ``http://localhost:5000``  
+> **Nota:** parte das funcionalidades requer o servidor em execução
