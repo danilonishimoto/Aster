@@ -84,6 +84,11 @@ public class ProdutoService {
         return produtos.stream().map(converter::toDto).toList();
     }
 
+    public List<ProdutoDto> findProdutosComercializaveis() {
+        List<Produto> lista = repository.findByStatus("Comercializável");
+        return lista.stream().map(converter::toDto).toList();
+    }
+
     @Transactional
     public void create(ProdutoDto dto) {
         if (dto.getId() == null) {

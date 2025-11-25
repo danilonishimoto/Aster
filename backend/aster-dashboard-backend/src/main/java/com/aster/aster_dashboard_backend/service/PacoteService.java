@@ -27,6 +27,11 @@ public class PacoteService {
         this.converter = converter;
     }
 
+    public List<PacoteDto> findAll() {
+        List<Pacote> lista = repository.findAll();
+        return lista.stream().map(converter::toDto).toList();
+    }
+
     public Page<PacoteDto> findAllPaginated(int page) {
         Page<Pacote> pacotes = repository.findAll(PageRequest.of(page, 15));
         return pacotes.map(converter::toDto);

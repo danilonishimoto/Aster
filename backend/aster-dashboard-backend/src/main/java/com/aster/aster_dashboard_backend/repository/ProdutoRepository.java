@@ -13,6 +13,8 @@ public interface ProdutoRepository extends JpaRepository<Produto, String> {
 
     long countByStatus(String status);
 
+    List<Produto> findByStatus(String status);
+
     @Query("""
         SELECT new com.aster.aster_dashboard_backend.dto.ProdutoInicioDto(p.icone, CAST(AVG(f.avaliacao) AS bigdecimal), (
                 SELECT pv2.id.numeroVersao
