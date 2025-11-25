@@ -1,8 +1,41 @@
+import { useState, useEffect } from "react";
 import Button from "../components/Button"
 import PacoteCard from "../components/PacoteCard";
 import ProdutoCard from "../components/ProdutoCard";
+import api from "../services/api"
 
 export default function Produtos () {
+    const [ produtos, setProdutos ] =  useState();
+    const [ pacotes, setPacotes ] =  useState();
+    const [ currentCategoria, setCurrentCategoria ] = useState("Todos");
+
+    const fetchProdutos = async () => {
+        try {
+            const response = await api.get('/home/produtos-mais-populares');
+            setProdutos(response.data);
+        } catch (error) {
+            console.error('Erro ao buscar produtos:', error);
+        }
+    }
+
+    const fetchPacotes = async () => {
+        try {
+            const response = await api.get('/home/pacotes-mais-populares');
+            setPacotes(response.data);
+        } catch (error) {
+            console.error('Erro ao buscar pacotes:', error);
+        }
+    }
+
+    const handleCategoriaChange = (categoria: string) => {
+        setCurrentCategoria(categoria);
+    }
+
+    useEffect(() => {
+        fetchProdutos();
+        fetchPacotes();
+    }, [produtos, pacotes]);
+
     return (
         <section className="w-full bg-gradient-to-tr from-[var(--brand-blue)] via-[var(--brand-lavender)] to-[var(--brand-pink)] flex flex-col items-center justify-start">
             <div className="w-full h-16 flex items-center justify-center text-center"> {/* header area */} </div>
@@ -16,82 +49,26 @@ export default function Produtos () {
                 <div className="flex flex-col items-start justify-start gap-6">
                     <p>Filtre por categoria</p>
                     <div className="flex flex-col items-start justify-start gap-1">
-                        <button className="w-64 h-10.5 bg-[var(--brand-lavender)]/50 rounded-md px-4 hover:cursor-pointer">
-                            <p className="font-semibold text-left justify-center">
-                                Todos
-                            </p>
-                        </button>
-
-                        <button className="w-64 h-10.5 rounded-md px-4">
-                            <p className="font-semibold text-left justify-center hover:cursor-pointer">
-                                Categoria
-                            </p>
-                        </button>
-
-                        <button className="w-64 h-10.5 rounded-md px-4">
-                            <p className="font-semibold text-left justify-center hover:cursor-pointer">
-                                Categoria
-                            </p>
-                        </button>
-
-                        <button className="w-64 h-10.5 rounded-md px-4">
-                            <p className="font-semibold text-left justify-center hover:cursor-pointer">
-                                Categoria
-                            </p>
-                        </button>
-
-                        <button className="w-64 h-10.5 rounded-md px-4">
-                            <p className="font-semibold text-left justify-center hover:cursor-pointer">
-                                Categoria
-                            </p>
-                        </button>
-
-                        <button className="w-64 h-10.5 rounded-md px-4">
-                            <p className="font-semibold text-left justify-center hover:cursor-pointer">
-                                Categoria
-                            </p>
-                        </button>
-
-                        <button className="w-64 h-10.5 rounded-md px-4">
-                            <p className="font-semibold text-left justify-center hover:cursor-pointer">
-                                Categoria
-                            </p>
-                        </button>
-
-                        <button className="w-64 h-10.5 rounded-md px-4">
-                            <p className="font-semibold text-left justify-center hover:cursor-pointer">
-                                Categoria
-                            </p>
-                        </button>
-
-                        <button className="w-64 h-10.5 rounded-md px-4">
-                            <p className="font-semibold text-left justify-center hover:cursor-pointer">
-                                Categoria
-                            </p>
-                        </button>
+                        {pacotes.map((pacote) => ( 
+                            (!pacote.categoria.includes(currentCategoria) && currentCategoria !== "Whole Bundle")? null :
+                            <button className="w-64 h-10.5 bg-[var(--brand-lavender)]/50 rounded-md px-4 hover:cursor-pointer" key={pacote.categoria} onClick={() => handleCategoriaChange(pacote.categoria)}>
+                                <p className="font-semibold text-left justify-center">
+                                    {pacote.categoria}
+                                </p>
+                            </button>
+                        ))}
                     </div>
                 </div>
 
                 <div className="grid grid-cols-4 gap-6">
-                    <ProdutoCard />
-                    <ProdutoCard />
-                    <ProdutoCard />
-                    <ProdutoCard />
-                    
-                    <ProdutoCard />
-                    <ProdutoCard />
-                    <ProdutoCard />
-                    <ProdutoCard />
-
-                    <ProdutoCard />
-                    <ProdutoCard />
-                    <ProdutoCard />
-                    <ProdutoCard />
-
-                    <ProdutoCard />
-                    <ProdutoCard />
-                    <ProdutoCard />
-                    <ProdutoCard />
+                    {produtos.map((produto) => (
+                        (!produto.categoria.includes(currentCategoria))? null :
+                        <ProdutoCard 
+                            key={produto.name}
+                            name={produto.name}
+                            descricao={produto.descricao}
+                        />
+                    ))}
                 </div>
             </div>
 
@@ -106,25 +83,16 @@ export default function Produtos () {
                 </div>
                 <div className="flex flex-col gap-9">
                     <div className="grid grid-cols-4 gap-9">
-                        <PacoteCard />
-                        <PacoteCard />
-                        <PacoteCard />
-                        <PacoteCard />
-
-                        <PacoteCard />
-                        <PacoteCard />
-                        <PacoteCard />
-                        <PacoteCard />
-
-                        <PacoteCard />
-                        <PacoteCard />
-                        <PacoteCard />
-                        <PacoteCard />
-
-                        <PacoteCard />
-                        <PacoteCard />
-                        <PacoteCard />
-                        <PacoteCard />
+                        {pacotes.map((pacote) => ( 
+                            (!pacote.categoria.includes(currentCategoria) && currentCategoria !== "Whole Bundle")? null :
+                            <PacoteCard 
+                                key={pacote.name}
+                                name={pacote.name}
+                                produtos={pacote.produtos}
+                                individual={pacote.precoIndividual}
+                                organizacional={pacote.precoOrganizacional}
+                            />
+                        ))}
                     </div>
                 
                     <div className="w-347 h-130 bg-[var(--background-fixed-white)] rounded-3xl shadow-sm flex flex-col items-center justify-center p-6 gap-3">
@@ -134,76 +102,76 @@ export default function Produtos () {
                                 <div className="w-full flex flex-col items-center justify-start gap-2">
                                     <div className="w-full flex flex-row items-center justify-start gap-2">
                                         <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
-                                        <p className="font-semibold text-lg">Aikonic</p>
+                                        <p className="font-semibold text-lg">{produtos[0].name}</p>
                                     </div>
                                     <div className="w-full flex flex-row items-center justify-start gap-2">
                                         <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
-                                        <p className="font-semibold text-lg">Aikonic</p>
+                                        <p className="font-semibold text-lg">{produtos[1].name}</p>
                                     </div>
                                     <div className="w-full flex flex-row items-center justify-start gap-2">
                                         <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
-                                        <p className="font-semibold text-lg">Aikonic</p>
+                                        <p className="font-semibold text-lg">{produtos[2].name}</p>
                                     </div>
                                     <div className="w-full flex flex-row items-center justify-start gap-2">
                                         <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
-                                        <p className="font-semibold text-lg">Aikonic</p>
+                                        <p className="font-semibold text-lg">{produtos[3].name}</p>
                                     </div>
                                 </div>
                                 
                                 <div className="w-full flex flex-col items-center justify-start gap-2">
                                     <div className="w-full flex flex-row items-center justify-start gap-2">
                                         <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
-                                        <p className="font-semibold text-lg">Aikonic</p>
+                                        <p className="font-semibold text-lg">{produtos[4].name}</p>
                                     </div>
                                     <div className="w-full flex flex-row items-center justify-start gap-2">
                                         <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
-                                        <p className="font-semibold text-lg">Aikonic</p>
+                                        <p className="font-semibold text-lg">{produtos[5].name}</p>
                                     </div>
                                     <div className="w-full flex flex-row items-center justify-start gap-2">
                                         <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
-                                        <p className="font-semibold text-lg">Aikonic</p>
+                                        <p className="font-semibold text-lg">{produtos[6].name}</p>
                                     </div>
                                     <div className="w-full flex flex-row items-center justify-start gap-2">
                                         <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
-                                        <p className="font-semibold text-lg">Aikonic</p>
-                                    </div>
-                                </div>
-
-                                <div className="w-full flex flex-col items-center justify-start gap-2">
-                                    <div className="w-full flex flex-row items-center justify-start gap-2">
-                                        <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
-                                        <p className="font-semibold text-lg">Aikonic</p>
-                                    </div>
-                                    <div className="w-full flex flex-row items-center justify-start gap-2">
-                                        <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
-                                        <p className="font-semibold text-lg">Aikonic</p>
-                                    </div>
-                                    <div className="w-full flex flex-row items-center justify-start gap-2">
-                                        <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
-                                        <p className="font-semibold text-lg">Aikonic</p>
-                                    </div>
-                                    <div className="w-full flex flex-row items-center justify-start gap-2">
-                                        <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
-                                        <p className="font-semibold text-lg">Aikonic</p>
+                                        <p className="font-semibold text-lg">{produtos[7].name}</p>
                                     </div>
                                 </div>
 
                                 <div className="w-full flex flex-col items-center justify-start gap-2">
                                     <div className="w-full flex flex-row items-center justify-start gap-2">
                                         <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
-                                        <p className="font-semibold text-lg">Aikonic</p>
+                                        <p className="font-semibold text-lg">{produtos[8].name}</p>
                                     </div>
                                     <div className="w-full flex flex-row items-center justify-start gap-2">
                                         <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
-                                        <p className="font-semibold text-lg">Aikonic</p>
+                                        <p className="font-semibold text-lg">{produtos[9].name}</p>
                                     </div>
                                     <div className="w-full flex flex-row items-center justify-start gap-2">
                                         <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
-                                        <p className="font-semibold text-lg">Aikonic</p>
+                                        <p className="font-semibold text-lg">{produtos[10].name}</p>
                                     </div>
                                     <div className="w-full flex flex-row items-center justify-start gap-2">
                                         <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
-                                        <p className="font-semibold text-lg">Aikonic</p>
+                                        <p className="font-semibold text-lg">{produtos[11].name}</p>
+                                    </div>
+                                </div>
+
+                                <div className="w-full flex flex-col items-center justify-start gap-2">
+                                    <div className="w-full flex flex-row items-center justify-start gap-2">
+                                        <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
+                                        <p className="font-semibold text-lg">{produtos[12].name}</p>
+                                    </div>
+                                    <div className="w-full flex flex-row items-center justify-start gap-2">
+                                        <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
+                                        <p className="font-semibold text-lg">{produtos[13].name}</p>
+                                    </div>
+                                    <div className="w-full flex flex-row items-center justify-start gap-2">
+                                        <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
+                                        <p className="font-semibold text-lg">{produtos[14].name}</p>
+                                    </div>
+                                    <div className="w-full flex flex-row items-center justify-start gap-2">
+                                        <img src="/assets/icons/app.svg" alt="Icone" className="w-12 h-12"/>
+                                        <p className="font-semibold text-lg">{produtos[15].name}</p>
                                     </div>
                                 </div>
                             </div>
@@ -212,17 +180,17 @@ export default function Produtos () {
                                 <p className="w-full text-sm text-[var(--content-secondary)]">Adquira a coleção completa da Aster por:</p>
                                 <div className="w-full flex flex-row items-start justify-start gap-3">
                                     <div className="flex flex-col items-start justify-star">
-                                        <p className="font-semibold text-lg mb-[-0.25rem]">R$ 99,90/mês</p>
+                                        <p className="font-semibold text-lg mb-[-0.25rem]">R$ {Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2 }).format(pacotes.findById("Whole Bundle").individual)}/mês</p>
                                         <p>Individual</p>
                                     </div>
-                                    <p className="text-sm text-[var(--content-tertiary)] mt-[0.4rem]">ou R$ 999,00/ano</p>
+                                    <p className="text-sm text-[var(--content-tertiary)] mt-[0.4rem]">ou R$ {Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2 }).format(pacotes.findById("Whole Bundle").individual * 10)}/ano</p>
                                 </div>
                                 <div className="w-full flex flex-row items-start justify-start gap-3">
                                     <div className="flex flex-col items-start justify-star">
-                                        <p className="font-semibold text-lg mb-[-0.25rem]">R$ 99,90/mês</p>
+                                        <p className="font-semibold text-lg mb-[-0.25rem]">R$ {Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2 }).format(pacotes.findById("Whole Bundle").organizacional)}/mês</p>
                                         <p>Organizacional</p>
                                     </div>
-                                    <p className="text-sm text-[var(--content-tertiary)] mt-[0.4rem]">ou R$ 999,00/ano</p>
+                                    <p className="text-sm text-[var(--content-tertiary)] mt-[0.4rem]">ou R$ {Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2 }).format(pacotes.findById("Whole Bundle").organizacional * 10)}/ano</p>
                                 </div>
                             </div>
                         </div>
