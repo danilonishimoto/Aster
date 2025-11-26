@@ -11,8 +11,8 @@ export default function Desempenho() {
     const [tempoProdutoData, setTempoProdutoData] = useState();
     const [tempoPacoteData, setTempoPacoteData] = useState();
 
-    const [produtoSelecionado, setProdutoSelecionado] = useState("Nova");
-    const [pacoteSelecionado, setPacoteSelecionado] = useState("Design");
+    const [produtoSelecionado, setProdutoSelecionado] = useState("nova");
+    const [pacoteSelecionado, setPacoteSelecionado] = useState("design");
 
     const [colorScheme1, setColorScheme1] = useState();
     const [colorScheme2, setColorScheme2] = useState();
@@ -43,6 +43,11 @@ export default function Desempenho() {
             data: new Date(item.data).getTime(),
         }));
     }
+
+    const formatString = (value: string) => {
+        const formatted = value.replace(/_/g, " ");
+        return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+    };
 
     useEffect(() => {
         async function carregarDados() {
@@ -121,7 +126,7 @@ export default function Desempenho() {
                                     colors: colorScheme1
                                 }
                             }]}
-                            series={[{ dataKey: 'vendas', label: 'R$' }]}
+                            series={[{ dataKey: 'receita', label: 'R$' }]}
                             height={320}
                             hideLegend={true}
                         />
@@ -143,7 +148,7 @@ export default function Desempenho() {
                                     values: receitaPacoteData.findIndex((d: any) => d.pacote === 'Aikonic') !== -1 ? receitaPacoteData.map((d: any) => d.pacote) : [],
                                     colors: colorScheme1
                                 }}]}
-                            series={[{ dataKey: 'vendas', label: 'R$' }]}
+                            series={[{ dataKey: 'receita', label: 'R$' }]}
                             hideLegend={true}
                             layout="horizontal"
                             height={receitaPacoteData.length * 30}
@@ -166,10 +171,10 @@ export default function Desempenho() {
                                 valueFormatter: dateFormatter,
                             }]}
                             series={[{
-                                dataKey: 'vendas',
+                                dataKey: 'receita',
                                 showMark: false,
                                 label: 'R$',
-                                color: colorScheme2[receitaProdutoData.findIndex((d: any) => d.produto === produtoSelecionado) % colorScheme2.length]
+                                color: colorScheme2[formatString(produtoSelecionado)]
                             }]}
                             height={240}
                             hideLegend={true}
@@ -189,7 +194,7 @@ export default function Desempenho() {
                                         }
                                     `}
                                 >
-                                    {produto}
+                                    {formatString(produto)}
                                 </button>
                             ))}
                         </div>
@@ -208,10 +213,10 @@ export default function Desempenho() {
                                 valueFormatter: dateFormatter,
                             }]}
                             series={[{
-                                dataKey: 'vendas',
+                                dataKey: 'receita',
                                 showMark: false,
                                 label: 'R$',
-                                color: colorScheme2[receitaPacoteData.findIndex((d: any) => d.pacote === pacoteSelecionado) % colorScheme2.length],
+                                color: colorScheme2[formatString(pacoteSelecionado)],
                             }]}
                             height={240}
                             hideLegend={true}
@@ -231,7 +236,7 @@ export default function Desempenho() {
                                         }
                                     `}
                                 >
-                                    {pacote}
+                                    {formatString(pacote)}
                                 </button>
                             ))}
                         </div>
