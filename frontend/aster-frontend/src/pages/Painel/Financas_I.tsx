@@ -54,9 +54,12 @@ export default function Desempenho() {
                 palette2,
             ] = await Promise.all([
                 fetchData('receita-total-mensal'),
-                fetchData('despesa-total-mensal'),
+                /*fetchData('despesa-total-mensal'),
                 fetchData('ticket-medio-cliente'),
-                fetchData('saldo-anual'),
+                fetchData('saldo-anual'),*/ 
+                fetchJson('/mocks/metricas-painel/despesa-total-mensal.json'),
+                fetchJson('/mocks/metricas-painel/ticketMedio.json'),
+                fetchJson('/mocks/metricas-painel/tempoProduto.json'),
 
                 fetchJson(`/src/assets/files/color-palettes/chartPalette4.json`),
                 fetchJson(`/src/assets/files/color-palettes/chartPalette3.json`)
@@ -81,12 +84,15 @@ export default function Desempenho() {
         id: string;
     };
 
-    const dateFormatter = (value: number) => {
-        return new Date(value).toLocaleDateString("pt-BR", {
+    const dateFormatter = (value: string) => {
+        const date = new Date(value);
+
+        return date.toLocaleDateString("pt-BR", {
             month: "long",
             year: "numeric",
         });
     };
+
 
     function ColorSwitch({ threshold, color1, color2, id }: ColorSwitchProps) {
         const { top, height, bottom } = useDrawingArea();
@@ -227,14 +233,14 @@ export default function Desempenho() {
                         </div>
                         <div className="w-full flex items-center justify-center px-9 mt-3">
                             <LineChart
-                                dataset={prepararSerie(recortarArray(tempoReceitaData, "Aikonic"))}
+                                dataset={prepararSerie(tempoReceitaData)}
                                 xAxis={[{
                                     dataKey: 'data',
                                     scaleType: 'time',
                                     valueFormatter: dateFormatter,
                                 }]}
                                 series={[{
-                                    dataKey: 'vendas',
+                                    dataKey: 'receita',
                                     showMark: false,
                                     color: "#85bfd4",
                                     label: 'R$'
@@ -252,19 +258,19 @@ export default function Desempenho() {
                 <section className="w-full flex flex-col items-start justify-center gap-6">
                     <Glass className="min-w-full rounded-t-3xl rounded-b-3xl">
                         <div className="ml-3 mb-2">
-                            <h5 className="text-xl font-semibold text-center">Despesas Operacional (OPEX)</h5>
+                            <h5 className="text-xl font-semibold text-center">Despesas Operacionais (OPEX)</h5>
                             <p className="text-sm text-center">Coloque o mouse sobre as barras para mais detalhes</p>
                         </div>
                         <div className="w-full flex items-center justify-center px-9 mt-3">
                             <LineChart
-                                dataset={prepararSerie(recortarArray(tempoDespesasData, "Aikonic"))}
+                                dataset={prepararSerie(tempoDespesasData)}
                                 xAxis={[{
                                     dataKey: 'data',
                                     scaleType: 'time',
                                     valueFormatter: dateFormatter,
                                 }]}
                                 series={[{
-                                    dataKey: 'vendas',
+                                    dataKey: 'despesa',
                                     showMark: false,
                                     color: "#C198F3",
                                     label: '- R$'

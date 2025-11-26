@@ -118,7 +118,7 @@ export default function Desempenho() {
                                 dataKey: 'produto', 
                                 colorMap: {
                                     type: 'ordinal',
-                                    values: vendasProdutoData.findIndex((d: any) => d.produto === 'Aikonic') !== -1 ? vendasProdutoData.map((d: any) => d.produto) : [],
+                                    values: vendasProdutoData.map((d: any) => d.produto),
                                     colors: colorScheme1
                                 }
                             }]}
@@ -141,7 +141,7 @@ export default function Desempenho() {
                                 dataKey: 'pacote', 
                                 colorMap: {
                                     type: 'ordinal',
-                                    values: vendasPacoteData.findIndex((d: any) => d.pacote === 'Aikonic') !== -1 ? vendasPacoteData.map((d: any) => d.pacote) : [],
+                                    values: vendasPacoteData.map((d: any) => d.pacote),
                                     colors: colorScheme1
                                 },
                                 width: 96
