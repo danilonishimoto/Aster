@@ -3,6 +3,7 @@ import ProfileMenu from "../../components/ProfileMenu";
 import Glass from "../../components/Glass";
 import { BarChart } from '@mui/x-charts/BarChart';
 import { LineChart } from '@mui/x-charts/LineChart';
+import api from "../../services/api";
 
 export default function Desempenho() {
     const [vendasProdutoData, setVendasProdutoData] = useState();
