@@ -135,9 +135,9 @@ export default function Desempenho() {
                         </div>
                         <RadarChart
                             height={360}
-                            series={[{ label: 'Clientes', data: [222, 280, 86, 120, 180, 78], color: '#974cd4' }]}
+                            series={[{ label: 'Clientes', data: clientesContinenteData, color: '#974cd4' }]}
                             radar={{
-                                max: 320,
+                                max: 130,
                                 metrics: ['América do Sul', 'América do Norte', 'África', 'Ásia', 'Europa', 'Oceania'],
                             }}
                             hideLegend={true}
@@ -156,13 +156,13 @@ export default function Desempenho() {
                             yAxis={[{ scaleType: 'linear', }]}
                             xAxis={ [{ 
                                 scaleType: 'band', 
-                                dataKey: 'pacote', 
+                                dataKey: 'pais', 
                                 colorMap: {
                                     type: 'ordinal',
-                                    values: clientesPaisData.findIndex((d: any) => d.pacote === 'Aikonic') !== -1 ? clientesPaisData.map((d: any) => d.pacote) : [],
+                                    values: clientesPaisData.map((d: any) => d.pais),
                                     colors: colorScheme2
                                 }}]}
-                            series={[{ dataKey: 'vendas', label: 'Clientes' }]}
+                            series={[{ dataKey: 'clientes', label: 'Clientes' }]}
                             hideLegend={true}
                             layout="vertical"
                             height={320}
