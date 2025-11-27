@@ -14,8 +14,12 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // Permite todos os endpoints
-                        .allowedOrigins("http://localhost:3000")
-                        .allowedOrigins("http://localhost:3001")
+                        .allowedOrigins(
+    "https://aster-website.vercel.app",
+    "http://aster-backend-env.eba-yqmhtgkn.sa-east-1.elasticbeanstalk.com/",
+    "http://localhost:3000",
+    "http://localhost:3001"
+)
                         // Frontend React
                         .allowedMethods("GET", "POST", "PATCH", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
