@@ -69,6 +69,8 @@ export default function Home() {
     if (!produtoGeral || !currentProduct || !colorScheme1) {
         return <div>Carregando...</div>;
     }
+
+    console.log(produtoGeral);
     
     return (
         <section className="w-full h-full flex flex-col items-center justify-start gap-6">
@@ -133,18 +135,18 @@ export default function Home() {
                                 {currentProduct && (<>
                                     <div className="w-full h-full flex flex-row items-center justify-center py-6 px-3 gap-4">
                                         <img src={`src/assets/icons/home/left.svg`} alt="Produto anterior" className="h-6 hover:cursor-pointer" onClick={() => {if(currentProductIndex > 0) setCurrentProductIndex(currentProductIndex - 1); else setCurrentProductIndex(15)}}/>
-                                        <div className="w-full flex flex-row items-center gap-4">
-                                            <img src={`src/assets/product-icons/${currentProduct["produtoIcone"]}.svg`} alt="Ícone do produto" className="h-18 w-18 drop-shadow-sm"/>
+                                        <div className="w-full flex flex-row items-center gap-3.5">
+                                            <img src={`src/assets/product-icons/${currentProduct["icone"]}.svg`} alt="Ícone do produto" className="h-16 w-16 drop-shadow-sm"/>
                                             <div className="w-full h-full flex flex-col items-center justify-between gap-1">
-                                                <div className="w-full flex flex-row items-center gap-2">
+                                                <div className="w-full flex flex-row items-center gap-1">
                                                     <p className="text-sm font-semibold">Avaliação:</p>
                                                     <p className="text-sm text-[var(--content-secondary)]">{currentProduct.mediaAvaliacoes}</p>
                                                 </div>
-                                                <div className="w-full flex flex-row items-center gap-2">
+                                                <div className="w-full flex flex-row items-center gap-1">
                                                     <p className="text-sm font-semibold">Cópias vendidas:</p>
                                                     <p className="text-sm text-[var(--content-secondary)]">{Intl.NumberFormat('pt-BR').format((currentProduct.mediaAvaliacoes + currentProduct.mediaAvaliacoes/20) * 100000)}</p>
                                                 </div>
-                                                <div className="w-full flex flex-row items-center gap-2">
+                                                <div className="w-full flex flex-row items-center gap-1 ">
                                                     <p className="text-sm font-semibold">Versão atual:</p>
                                                     <p className="text-sm text-[var(--content-secondary)]">{currentProduct.versaoAtual}</p>
                                                 </div>
