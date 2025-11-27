@@ -16,7 +16,7 @@ public class CorsConfig {
                 registry.addMapping("/**") // Permite todos os endpoints
                         .allowedOrigins(
     "https://aster-website.vercel.app",
-    "http://aster-backend-env.eba-yqmhtgkn.sa-east-1.elasticbeanstalk.com/",
+    "https://aster-backend-env.eba-yqmhtgkn.sa-east-1.elasticbeanstalk.com/",
     "http://localhost:3000",
     "http://localhost:3001"
 )
